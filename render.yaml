@@ -2,7 +2,7 @@ services:
   - type: web
     name: slic-index
     runtime: static
-    buildCommand: npm install && tsc -b && vite build
+    buildCommand: npm install && npm run build:web
     staticPublishPath: dist
     routes:
       - type: rewrite

@@ -10,6 +10,7 @@
     "build:pdf": "python3 scripts/generate_methodology_pdf.py",
     "verify:workbook": "python3 scripts/validate_slic_workbook.py",
     "build": "npm run rack:build && tsc -b && vite build",
+    "build:web": "tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
