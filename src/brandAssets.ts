@@ -12,23 +12,24 @@ export const slicLogo: BrandAsset = {
 
 export const collaborationLogos: BrandAsset[] = [
   {
-    name: "Ministry of Digital Economy and Society",
-    src: "/Logos/Ministry of Digital Economy and Society logo.jpg",
-    alt: "Ministry of Digital Economy and Society logo",
+    name: "UWN (PMU-A)",
+    src: "/Logos/ความเป็นมา - บพท..jpeg",
+    alt: "UWN (PMU-A) logo",
   },
   {
     name: "Digital Economy Promotion Agency",
-    src: "/Logos/Digital Economy Promotion Agency logo.jpg",
+    src: "/Logos/depa Thailand - depa logo.png",
     alt: "Digital Economy Promotion Agency logo",
   },
   {
     name: "Smart City Thailand Office",
-    src: "/Logos/Smart City Thailand Office Logo.jpg",
+    src: "/Logos/Contact Us - Smart City Thailand.png",
     alt: "Smart City Thailand Office logo",
   },
   {
     name: "AXIOM AI",
-    src: "/Logos/axiom-ai-mark.png",
+    src: "/Logos/AXIOM AI logo.png",
     alt: "AXIOM AI logo",
   },
 ];
+
