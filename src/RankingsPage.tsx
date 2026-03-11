@@ -1,12 +1,56 @@
 import { useEffect, useMemo, useState } from "react";
 import { formatCityTime } from "./cityTimezones";
 import RankingTrendMiniChart from "./RankingTrendMiniChart";
-import { globalRankings, rankingRegions } from "./rankingsData";
+import { getRankingsBoard, rankingRegions } from "./rankingsData";
 import { rankingPhotos } from "./reportPhotos";
-import { smartCityFeed } from "./smartCityFeed";
+import { smartCityFeed, type SmartCityFeedItem } from "./smartCityFeed";
 import { getCopy } from "./siteCopy";
 import SiteFooter from "./SiteFooter";
 import type { FullRankedCity, Locale, ScoreMode, SitePath } from "./types";
+
+/**
+ * Pick a source-desk article for each top-10 city.
+ *
+ * 1. If an article's `cityKey` matches the city name → use it.
+ * 2. Otherwise give the city the next available *general* article
+ *    (one with no cityKey, or whose cityKey city isn't in the top 10).
+ *
+ * City-specific articles about cities *outside* the top 10
+ * (e.g. San Diego, Arlington) are never shown on an unrelated city card.
+ */
+function pickSourceItems(cities: FullRankedCity[]): (SmartCityFeedItem | null)[] {
+  const usedIds = new Set<string>();
+  const result: (SmartCityFeedItem | null)[] = new Array(cities.length).fill(null);
+
+  // Pass 1 — assign city-specific matches
+  for (let i = 0; i < cities.length; i++) {
+    const cityName = cities[i].name.toLowerCase();
+    const match = smartCityFeed.find(
+      (item) => item.cityKey === cityName && !usedIds.has(item.id),
+    );
+    if (match) {
+      result[i] = match;
+      usedIds.add(match.id);
+    }
+  }
+
+  // General pool: articles with no cityKey
+  const generalPool = smartCityFeed.filter(
+    (item) => !item.cityKey && !usedIds.has(item.id),
+  );
+  let gi = 0;
+
+  // Pass 2 — fill remaining slots with general articles
+  for (let i = 0; i < cities.length; i++) {
+    if (!result[i] && gi < generalPool.length) {
+      result[i] = generalPool[gi];
+      usedIds.add(generalPool[gi].id);
+      gi++;
+    }
+  }
+
+  return result;
+}
 
 const modeLabels: Record<ScoreMode, Record<Locale, string>> = {
   balanced: { en: "Balanced", th: "สมดุล", zh: "综合" },
@@ -230,7 +274,7 @@ export default function RankingsPage({
   const editorialCopy = rankingEditorialCopy[locale];
   const [mode, setMode] = useState<ScoreMode>("balanced");
   const [region, setRegion] = useState<string>("All");
-  const [scope, setScope] = useState<"core" | "field">("field");
+  const [scope, setScope] = useState<"core" | "field">("core");
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
@@ -244,27 +288,11 @@ export default function RankingsPage({
   }, []);
 
   const filteredRankings = useMemo(() => {
-    const scopedRows =
-      scope === "core"
-        ? globalRankings.filter((city) => city.coreBoardEligible)
-        : globalRankings;
-    const rows =
-      region === "All" ? scopedRows : scopedRows.filter((city) => city.region === region);
-
-    return [...rows].sort((left, right) => {
-      const scoreDelta = right.scores[mode] - left.scores[mode];
-      if (scoreDelta !== 0) {
-        return scoreDelta;
-      }
-      const liveDelta = right.delta - left.delta;
-      if (liveDelta !== 0) {
-        return liveDelta;
-      }
-      return left.globalRank - right.globalRank;
-    });
+    return getRankingsBoard({ mode, region, scope });
   }, [mode, region, scope]);
 
   const topCards = filteredRankings.slice(0, 10);
+  const topSourceItems = useMemo(() => pickSourceItems(topCards), [topCards]);
   const tableRows = filteredRankings.slice(10);
 
   return (
@@ -363,7 +391,7 @@ export default function RankingsPage({
           <div className="ranking-card-grid ranking-card-grid-top">
             {topCards.map((city, index) => {
               const localTime = formatCityTime(now, city.name, locale);
-              const sourceItem = smartCityFeed[index % smartCityFeed.length];
+              const sourceItem = topSourceItems[index];
 
               return (
                 <article className="ranking-detail-card" key={`${city.id}-${mode}`}>
@@ -493,38 +521,40 @@ export default function RankingsPage({
                           ))}
                         </div>
 
-                        <a
-                          className="ranking-source-card"
-                          href={sourceItem.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          style={{
-                            background: `linear-gradient(180deg, ${city.accentSoftHex ?? "rgba(15, 63, 153, 0.08)"} 0%, rgba(255,255,255,0.92) 100%)`,
-                            borderColor: city.accentHex ?? "#0f3f99",
-                          }}
-                        >
-                          <div className="ranking-source-card-head">
-                            <p className="panel-label">{editorialCopy.sourceDeskLabel}</p>
-                            <span className="ranking-source-date">
-                              {formatPublishedDate(sourceItem.publishedAt, locale)}
-                            </span>
-                          </div>
-                          <div className="ranking-accent-head">
-                            <h4>{city.name}</h4>
-                            <span
-                              className="ranking-accent-chip"
-                              style={{ background: city.accentHex ?? "#0f3f99" }}
-                            />
-                          </div>
-                          <p className="ranking-source-accent">
-                            {accentTileLabel[locale]} / {city.accentLabel ?? accentFallbackLabel[locale]}
-                          </p>
-                          <strong className="ranking-source-title">{sourceItem.headline}</strong>
-                          <div className="ranking-source-foot">
-                            <span>{sourceItem.source}</span>
-                            <span>{editorialCopy.sourceOpen}</span>
-                          </div>
-                        </a>
+                        {sourceItem && (
+                          <a
+                            className="ranking-source-card"
+                            href={sourceItem.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{
+                              background: `linear-gradient(180deg, ${city.accentSoftHex ?? "rgba(15, 63, 153, 0.08)"} 0%, rgba(255,255,255,0.92) 100%)`,
+                              borderColor: city.accentHex ?? "#0f3f99",
+                            }}
+                          >
+                            <div className="ranking-source-card-head">
+                              <p className="panel-label">{editorialCopy.sourceDeskLabel}</p>
+                              <span className="ranking-source-date">
+                                {formatPublishedDate(sourceItem.publishedAt, locale)}
+                              </span>
+                            </div>
+                            <div className="ranking-accent-head">
+                              <h4>{city.name}</h4>
+                              <span
+                                className="ranking-accent-chip"
+                                style={{ background: city.accentHex ?? "#0f3f99" }}
+                              />
+                            </div>
+                            <p className="ranking-source-accent">
+                              {accentTileLabel[locale]} / {city.accentLabel ?? accentFallbackLabel[locale]}
+                            </p>
+                            <strong className="ranking-source-title">{sourceItem.headline}</strong>
+                            <div className="ranking-source-foot">
+                              <span>{sourceItem.source}</span>
+                              <span>{editorialCopy.sourceOpen}</span>
+                            </div>
+                          </a>
+                        )}
                       </div>
                     </aside>
                   </div>

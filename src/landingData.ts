@@ -6,7 +6,7 @@ import type {
   RankedCity,
   SignalCard,
 } from "./types";
-import { globalRankings } from "./rankingsData";
+import { getRankingsBoard } from "./rankingsData";
 
 type RawRecord = Record<string, unknown>;
 
@@ -21,9 +21,7 @@ const defaultMeta: LandingMeta = {
   sourcesConnected: 31,
 };
 
-const defaultRankings: RankedCity[] = globalRankings
-  .filter((city) => city.coreBoardEligible)
-  .slice(0, 10);
+const defaultRankings: RankedCity[] = getRankingsBoard({ mode: "balanced", scope: "field" }).slice(0, 10);
 
 const defaultSignals: SignalCard[] = [
   {

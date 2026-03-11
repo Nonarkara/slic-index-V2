@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import BenchmarkFact from "./BenchmarkFact";
 import { buildLandingData } from "./landingData";
-import { globalRankings } from "./rankingsData";
+import { getRankingsBoard } from "./rankingsData";
 import { cityBenchmarks } from "./cityBenchmarks";
 import { formatCityTime } from "./cityTimezones";
 import { editorialPhotos, homeSupportPhotos } from "./editorialPhotos";
@@ -547,10 +547,6 @@ export default function HomePage({
   const [now, setNow] = useState(() => new Date());
   const benchmarks = cityBenchmarks[locale];
   const formulaSnippets = methodology.equationSection.groups.flatMap((group) => group.equations).slice(0, 3);
-  const landingBoard = useMemo(
-    () => globalRankings.filter((city) => city.coreBoardEligible).slice(0, 10),
-    [],
-  );
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -563,22 +559,8 @@ export default function HomePage({
   }, []);
 
   const rankings = useMemo(
-    () =>
-      [...landingBoard].sort((left, right) => {
-        const modeDelta = right.scores[mode] - left.scores[mode];
-
-        if (modeDelta !== 0) {
-          return modeDelta;
-        }
-
-        const liveDelta = right.delta - left.delta;
-        if (liveDelta !== 0) {
-          return liveDelta;
-        }
-
-        return right.scores.balanced - left.scores.balanced;
-      }),
-    [landingBoard, mode],
+    () => getRankingsBoard({ mode, region: "All", scope: "core" }).slice(0, 10),
+    [mode],
   );
 
   const leader = rankings[0];

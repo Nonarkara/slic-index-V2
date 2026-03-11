@@ -8,6 +8,7 @@ import SiteMasthead from "./SiteMasthead";
 import { localeLabels } from "./siteCopy";
 import ThailandPage from "./ThailandPage";
 import type { Locale, SitePath } from "./types";
+import { trackVisitor } from "./visitorTracking";
 
 type DocumentWithViewTransition = Document & {
   startViewTransition?: Document["startViewTransition"];
@@ -57,6 +58,10 @@ export default function App() {
 
     window.addEventListener("popstate", syncRoute);
     return () => window.removeEventListener("popstate", syncRoute);
+  }, []);
+
+  useEffect(() => {
+    trackVisitor();
   }, []);
 
   useEffect(() => {

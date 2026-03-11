@@ -5,6 +5,8 @@ export interface SmartCityFeedItem {
   publishedAt: string;
   url: string;
   topic: string;
+  /** Lowercase city name — if set, this article only appears on that city's card. */
+  cityKey?: string;
 }
 
 export const smartCityFeed: SmartCityFeedItem[] = [
@@ -15,6 +17,7 @@ export const smartCityFeed: SmartCityFeedItem[] = [
     publishedAt: "2026-02-20",
     url: "https://www.smartcitiesworld.net/news/boston-continues-to-build-climate-ready-workforce",
     topic: "Workforce",
+    cityKey: "boston",
   },
   {
     id: "municipal-pilots",
@@ -31,6 +34,7 @@ export const smartCityFeed: SmartCityFeedItem[] = [
     publishedAt: "2026-02-03",
     url: "https://www.smartcitiesworld.net/news/san-diego-approves-contract-to-electrify-city-buildings",
     topic: "Energy",
+    cityKey: "san diego",
   },
   {
     id: "pathways2resilience",
@@ -88,5 +92,6 @@ export const smartCityFeed: SmartCityFeedItem[] = [
     publishedAt: "2025-12-12",
     url: "https://www.smartcitiesworld.net/news/arlington-to-accelerate-ai-traffic-management",
     topic: "Mobility AI",
+    cityKey: "arlington",
   },
 ];
