@@ -5,22 +5,22 @@
   --font-heading: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
-  --bg: #0a0a0a;
-  --bg-soft: rgba(255, 255, 255, 0.03);
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-soft: rgba(255, 255, 255, 0.04);
-  --surface-strong: rgba(255, 255, 255, 0.08);
-  --text: #e8e8e8;
-  --text-soft: rgba(255, 255, 255, 0.55);
-  --text-inverse: #0a0a0a;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  --bg: #0b1120;
+  --bg-soft: rgba(140, 170, 220, 0.04);
+  --surface: rgba(140, 170, 220, 0.07);
+  --surface-soft: rgba(140, 170, 220, 0.04);
+  --surface-strong: rgba(140, 170, 220, 0.10);
+  --text: #e2e8f0;
+  --text-soft: rgba(226, 232, 240, 0.55);
+  --text-inverse: #0b1120;
+  --border: rgba(140, 170, 220, 0.10);
+  --border-strong: rgba(140, 170, 220, 0.18);
   --accent-cyan: #17c9cb;
   --accent-amber: #ff8f4a;
   --accent-red: #d34e36;
   --accent-green: #1f8f67;
-  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.4);
-  --shadow-sm: 0 12px 32px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 30px 80px rgba(6, 10, 22, 0.5);
+  --shadow-sm: 0 12px 32px rgba(6, 10, 22, 0.3);
   --max-width: 1240px;
 }
 
@@ -3690,18 +3690,18 @@ section[id] {
   }
 }
 
-/* Shared shell refinements — dark terminal theme */
+/* Shared shell refinements — dark mystic blue theme */
 :root {
-  --bg: #0a0a0a;
-  --bg-soft: rgba(255, 255, 255, 0.03);
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-soft: rgba(255, 255, 255, 0.04);
-  --surface-strong: rgba(255, 255, 255, 0.08);
-  --text: #e8e8e8;
-  --text-soft: rgba(255, 255, 255, 0.55);
-  --text-inverse: #0a0a0a;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  --bg: #0b1120;
+  --bg-soft: rgba(140, 170, 220, 0.04);
+  --surface: rgba(140, 170, 220, 0.07);
+  --surface-soft: rgba(140, 170, 220, 0.04);
+  --surface-strong: rgba(140, 170, 220, 0.10);
+  --text: #e2e8f0;
+  --text-soft: rgba(226, 232, 240, 0.55);
+  --text-inverse: #0b1120;
+  --border: rgba(140, 170, 220, 0.10);
+  --border-strong: rgba(140, 170, 220, 0.18);
   --accent-cyan: #17c9cb;
   --accent-amber: #ff8f4a;
   --accent-red: #d34e36;
@@ -4764,6 +4764,161 @@ section[id] {
     gap: 12px;
     padding: 12px 16px;
   }
+}
+
+/* ─── Rankings workbench (spider + results) ─── */
+.rankings-workbench {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+@media (min-width: 900px) {
+  .rankings-workbench {
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.rankings-spider-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .rankings-spider-panel {
+    position: sticky;
+    top: 72px;
+    max-height: calc(100vh - 88px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+}
+.rankings-results-panel {
+  min-width: 0;
+}
+.rankings-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 0;
+}
+.rankings-mode-badge.is-custom {
+  background: rgba(99,179,237,0.15);
+  border: 1px solid rgba(99,179,237,0.3);
+  color: rgba(99,179,237,0.9);
+}
+.rankings-mode-badge.is-canonical {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+}
+.rankings-count-toggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.rankings-count-toggle button {
+  padding: 6px 14px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.rankings-count-toggle button:not(:last-child) {
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+.rankings-count-toggle button.active {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.9);
+}
+.rankings-city-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.1s;
+}
+.rankings-city-row:hover {
+  background: rgba(255,255,255,0.03);
+}
+.rankings-city-row.is-top {
+  background: rgba(99,179,237,0.06);
+  border-bottom-color: rgba(99,179,237,0.1);
+}
+.rankings-pillar-bars {
+  display: flex;
+  gap: 2px;
+  height: 4px;
+  margin-top: 4px;
+}
+.rankings-pillar-bars > div {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+.rankings-pillar-bars > div > div {
+  height: 100%;
+  opacity: 0.7;
+}
+.rankings-dual-score {
+  text-align: right;
+  min-width: 64px;
+}
+.rankings-dual-score .custom-score {
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: rgba(99,179,237,0.9);
+}
+.rankings-dual-score .canonical-ref {
+  font-size: 10px;
+  opacity: 0.4;
+}
+.rankings-canonical-info {
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.45);
+}
+.rankings-reset-btn {
+  width: 100%;
+  padding: 8px 20px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.rankings-reset-btn:hover {
+  border-color: rgba(255,255,255,0.25);
+}
+.rankings-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -61,7 +61,6 @@ const navPaths: SitePath[] = [
   "/",
   "/about-slic",
   "/rankings",
-  "/exercise",
   "/methodology",
   "/thailand",
   "/ideas",

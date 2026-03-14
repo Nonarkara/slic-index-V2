@@ -16,6 +16,7 @@ interface ZeroSumAllocatorProps {
   total?: number;
   min?: number;
   max?: number;
+  size?: number;
 }
 
 /* ───────── SVG radar chart ───────── */
@@ -154,6 +155,7 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
   total = 100,
   min = 0,
   max = 50,
+  size = 320,
 }) => {
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const svgRef = useRef<HTMLDivElement>(null);
@@ -251,6 +253,7 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
         <SpiderWebChart
           pillars={pillars}
           total={total}
+          size={size}
           draggingIndex={draggingIndex}
         />
       </div>
