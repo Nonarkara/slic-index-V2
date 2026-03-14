@@ -19,7 +19,7 @@ interface ZeroSumAllocatorProps {
   size?: number;
 }
 
-/* ───────── SVG radar chart ───────── */
+/* ───────── SVG helpers ───────── */
 
 function polarToCartesian(cx: number, cy: number, r: number, angleDeg: number) {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
@@ -36,36 +36,83 @@ function radarPath(cx: number, cy: number, maxR: number, values: number[], total
   return pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ") + " Z";
 }
 
+/* ───────── spider chart ───────── */
+
 const SpiderWebChart: FC<{
   pillars: PillarAllocation[];
   total: number;
   size?: number;
   draggingIndex: number | null;
-}> = ({ pillars, total, size = 320, draggingIndex }) => {
+  hasInteracted: boolean;
+}> = ({ pillars, total, size = 360, draggingIndex, hasInteracted }) => {
   const cx = size / 2;
   const cy = size / 2;
-  const maxR = size * 0.38;
+  const maxR = size * 0.36;
   const n = pillars.length;
   const step = 360 / n;
   const rings = [0.25, 0.5, 0.75, 1.0];
 
   return (
     <svg viewBox={`0 0 ${size} ${size}`} style={{ width: "100%", maxWidth: size }}>
-      {/* Background rings */}
+      <defs>
+        {/* Glow filter for active dragging */}
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        {/* Gradient fill for the radar shape */}
+        <radialGradient id="radarFill" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(99,179,237,0.35)" />
+          <stop offset="100%" stopColor="rgba(99,179,237,0.08)" />
+        </radialGradient>
+        {/* Pulse animation for drag hint */}
+        {!hasInteracted && (
+          <style>{`
+            @keyframes pulseHint {
+              0%, 100% { opacity: 0.3; r: 12; }
+              50% { opacity: 0.7; r: 18; }
+            }
+            .drag-hint-pulse { animation: pulseHint 2s ease-in-out infinite; }
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            .hint-text { animation: fadeIn 1s ease-in 0.5s both; }
+          `}</style>
+        )}
+      </defs>
+
+      {/* Background rings with subtle labels */}
       {rings.map((frac) => (
-        <polygon
-          key={frac}
-          points={Array.from({ length: n }, (_, i) => {
-            const p = polarToCartesian(cx, cy, maxR * frac, i * step);
-            return `${p.x},${p.y}`;
-          }).join(" ")}
-          fill="none"
-          stroke="rgba(255,255,255,0.08)"
-          strokeWidth={1}
-        />
+        <g key={frac}>
+          <polygon
+            points={Array.from({ length: n }, (_, i) => {
+              const p = polarToCartesian(cx, cy, maxR * frac, i * step);
+              return `${p.x},${p.y}`;
+            }).join(" ")}
+            fill="none"
+            stroke="rgba(255,255,255,0.06)"
+            strokeWidth={frac === 1.0 ? 1.5 : 0.8}
+            strokeDasharray={frac < 1.0 ? "3 3" : "none"}
+          />
+          {/* Ring value label */}
+          <text
+            x={cx + 4}
+            y={cy - maxR * frac + 3}
+            fontSize={8}
+            fill="rgba(255,255,255,0.15)"
+            fontFamily="'JetBrains Mono', monospace"
+          >
+            {Math.round(frac * total)}
+          </text>
+        </g>
       ))}
-      {/* Axis lines */}
-      {pillars.map((_, i) => {
+
+      {/* Axis lines — colored per pillar */}
+      {pillars.map((p, i) => {
         const end = polarToCartesian(cx, cy, maxR, i * step);
         return (
           <line
@@ -74,56 +121,137 @@ const SpiderWebChart: FC<{
             y1={cy}
             x2={end.x}
             y2={end.y}
-            stroke="rgba(255,255,255,0.12)"
-            strokeWidth={1}
+            stroke={p.color}
+            strokeWidth={0.8}
+            strokeOpacity={0.2}
           />
         );
       })}
-      {/* Filled area */}
+
+      {/* Filled radar area */}
       <path
         d={radarPath(cx, cy, maxR, pillars.map((p) => p.value), total)}
-        fill="rgba(99,179,237,0.18)"
-        stroke="rgba(99,179,237,0.6)"
-        strokeWidth={2}
+        fill="url(#radarFill)"
+        stroke="rgba(99,179,237,0.7)"
+        strokeWidth={2.5}
+        strokeLinejoin="round"
+        style={{ transition: draggingIndex !== null ? "none" : "d 0.2s ease" }}
       />
+
+      {/* Colored segment fills — wedge from center to vertex */}
+      {pillars.map((p, i) => {
+        const r = (p.value / total) * maxR;
+        const pt = polarToCartesian(cx, cy, r, i * step);
+        const nextIdx = (i + 1) % n;
+        const nextR = (pillars[nextIdx].value / total) * maxR;
+        const nextPt = polarToCartesian(cx, cy, nextR, nextIdx * step);
+        return (
+          <path
+            key={`wedge-${p.id}`}
+            d={`M ${cx} ${cy} L ${pt.x} ${pt.y} L ${nextPt.x} ${nextPt.y} Z`}
+            fill={p.color}
+            fillOpacity={0.06}
+            style={{ transition: draggingIndex !== null ? "none" : "d 0.2s ease" }}
+          />
+        );
+      })}
+
       {/* Vertex dots + labels */}
       {pillars.map((p, i) => {
         const r = (p.value / total) * maxR;
         const pt = polarToCartesian(cx, cy, r, i * step);
-        const labelPt = polarToCartesian(cx, cy, maxR + 22, i * step);
+        const labelR = maxR + 28;
+        const labelPt = polarToCartesian(cx, cy, labelR, i * step);
         const isDragging = draggingIndex === i;
+
         return (
           <g key={p.id}>
-            {/* Draggable handle */}
+            {/* Drag hint pulse ring — only before first interaction */}
+            {!hasInteracted && i === 0 && (
+              <circle
+                cx={pt.x}
+                cy={pt.y}
+                r={14}
+                fill={p.color}
+                fillOpacity={0.15}
+                className="drag-hint-pulse"
+              />
+            )}
+
+            {/* Glow ring when dragging */}
+            {isDragging && (
+              <circle
+                cx={pt.x}
+                cy={pt.y}
+                r={18}
+                fill={p.color}
+                fillOpacity={0.15}
+                filter="url(#glow)"
+              />
+            )}
+
+            {/* Connection line from handle to label */}
+            <line
+              x1={pt.x}
+              y1={pt.y}
+              x2={polarToCartesian(cx, cy, maxR + 8, i * step).x}
+              y2={polarToCartesian(cx, cy, maxR + 8, i * step).y}
+              stroke={p.color}
+              strokeWidth={isDragging ? 1.5 : 0.8}
+              strokeOpacity={isDragging ? 0.6 : 0.2}
+              strokeDasharray="2 2"
+            />
+
+            {/* Invisible larger hit target for easier grabbing */}
             <circle
               cx={pt.x}
               cy={pt.y}
-              r={isDragging ? 10 : 7}
-              fill={p.color}
-              stroke="#fff"
-              strokeWidth={2}
-              style={{ cursor: "grab", transition: isDragging ? "none" : "all 0.15s" }}
+              r={20}
+              fill="transparent"
+              style={{ cursor: "grab" }}
               data-index={i}
             />
-            {/* Label */}
+
+            {/* Visible handle */}
+            <circle
+              cx={pt.x}
+              cy={pt.y}
+              r={isDragging ? 11 : 8}
+              fill={p.color}
+              stroke="#fff"
+              strokeWidth={isDragging ? 3 : 2}
+              style={{
+                cursor: "grab",
+                transition: isDragging ? "none" : "all 0.2s ease",
+                filter: isDragging ? "url(#glow)" : "none",
+              }}
+              data-index={i}
+            />
+
+            {/* Label with pillar name */}
             <text
               x={labelPt.x}
-              y={labelPt.y}
+              y={labelPt.y - 7}
               textAnchor="middle"
               dominantBaseline="central"
-              fontSize={11}
-              fontWeight={isDragging ? 700 : 500}
+              fontSize={12}
+              fontWeight={isDragging ? 800 : 600}
+              fontFamily="'JetBrains Mono', monospace"
+              letterSpacing="0.03em"
               fill={isDragging ? p.color : "rgba(255,255,255,0.85)"}
             >
               {p.label}
             </text>
-            {/* Value badge */}
+
+            {/* Value badge below label */}
             <text
-              x={pt.x}
-              y={pt.y - 14}
+              x={labelPt.x}
+              y={labelPt.y + 8}
               textAnchor="middle"
-              fontSize={11}
-              fontWeight={700}
+              dominantBaseline="central"
+              fontSize={14}
+              fontWeight={800}
+              fontFamily="'JetBrains Mono', monospace"
               fill={p.color}
             >
               {p.value}
@@ -131,18 +259,49 @@ const SpiderWebChart: FC<{
           </g>
         );
       })}
-      {/* Center total */}
+
+      {/* Center — total display */}
+      <circle cx={cx} cy={cy} r={22} fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.1)" strokeWidth={1} />
       <text
         x={cx}
-        y={cy}
+        y={cy - 3}
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize={20}
+        fontSize={18}
         fontWeight={800}
-        fill="rgba(255,255,255,0.5)"
+        fontFamily="'JetBrains Mono', monospace"
+        fill="rgba(255,255,255,0.6)"
       >
         {total}
       </text>
+      <text
+        x={cx}
+        y={cy + 11}
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={7}
+        fontWeight={500}
+        fontFamily="'JetBrains Mono', monospace"
+        letterSpacing="0.12em"
+        fill="rgba(255,255,255,0.25)"
+      >
+        TOTAL
+      </text>
+
+      {/* Drag hint text — only before first interaction */}
+      {!hasInteracted && (
+        <text
+          x={cx}
+          y={size - 12}
+          textAnchor="middle"
+          fontSize={11}
+          fontFamily="'JetBrains Mono', monospace"
+          fill="rgba(255,255,255,0.35)"
+          className="hint-text"
+        >
+          drag a point to set your priorities
+        </text>
+      )}
     </svg>
   );
 };
@@ -155,9 +314,10 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
   total = 100,
   min = 0,
   max = 50,
-  size = 320,
+  size = 360,
 }) => {
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const svgRef = useRef<HTMLDivElement>(null);
 
   const handleSliderChange = useCallback(
@@ -167,6 +327,8 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
       const delta = clamped - old;
       if (delta === 0) return;
 
+      if (!hasInteracted) setHasInteracted(true);
+
       // Proportionally adjust other pillars
       const others = pillars.filter((_, i) => i !== index);
       const othersTotal = others.reduce((s, p) => s + p.value, 0);
@@ -174,7 +336,6 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
       const updated = pillars.map((p, i) => {
         if (i === index) return { ...p, value: clamped };
         if (othersTotal === 0) {
-          // Distribute deficit equally
           return { ...p, value: Math.max(min, Math.round((total - clamped) / (pillars.length - 1))) };
         }
         const share = p.value / othersTotal;
@@ -186,7 +347,6 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
       const currentTotal = updated.reduce((s, p) => s + p.value, 0);
       const diff = total - currentTotal;
       if (diff !== 0) {
-        // Add/subtract from the largest non-dragged pillar
         const adjustIdx = updated
           .map((p, i) => ({ i, v: p.value }))
           .filter((x) => x.i !== index)
@@ -201,10 +361,9 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
 
       onChange(updated);
     },
-    [pillars, onChange, total, min, max]
+    [pillars, onChange, total, min, max, hasInteracted]
   );
 
-  // Drag handling on SVG
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
       const target = e.target as SVGElement;
@@ -212,9 +371,10 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
       if (idx !== null) {
         setDraggingIndex(parseInt(idx));
         (e.target as Element).setPointerCapture?.(e.pointerId);
+        if (!hasInteracted) setHasInteracted(true);
       }
     },
-    []
+    [hasInteracted]
   );
 
   const handlePointerMove = useCallback(
@@ -228,7 +388,7 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
       const mx = e.clientX - rect.left - cx;
       const my = e.clientY - rect.top - cy;
       const dist = Math.sqrt(mx * mx + my * my);
-      const maxR = rect.width * 0.38;
+      const maxR = rect.width * 0.36;
       const fraction = Math.max(0, Math.min(1, dist / maxR));
       const newValue = Math.round(fraction * total);
       handleSliderChange(draggingIndex, newValue);
@@ -241,37 +401,45 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
   }, []);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
       {/* Radar chart with drag */}
       <div
         ref={svgRef}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        style={{ touchAction: "none", userSelect: "none" }}
+        style={{ touchAction: "none", userSelect: "none", width: "100%", maxWidth: size }}
       >
         <SpiderWebChart
           pillars={pillars}
           total={total}
           size={size}
           draggingIndex={draggingIndex}
+          hasInteracted={hasInteracted}
         />
       </div>
 
       {/* Slider controls */}
-      <div style={{ width: "100%", maxWidth: 400, display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ width: "100%", maxWidth: 420, display: "flex", flexDirection: "column", gap: 10 }}>
         {pillars.map((p, i) => (
-          <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div
               style={{
-                width: 10,
-                height: 10,
+                width: 12,
+                height: 12,
                 borderRadius: "50%",
                 backgroundColor: p.color,
                 flexShrink: 0,
+                boxShadow: `0 0 6px ${p.color}40`,
               }}
             />
-            <span style={{ width: 90, fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,0.85)" }}>
+            <span style={{
+              width: 95,
+              fontSize: 13,
+              fontWeight: 600,
+              fontFamily: "'JetBrains Mono', monospace",
+              color: "rgba(255,255,255,0.85)",
+            }}>
               {p.label}
             </span>
             <input
@@ -288,11 +456,12 @@ const ZeroSumAllocator: FC<ZeroSumAllocatorProps> = ({
             />
             <span
               style={{
-                width: 32,
+                width: 36,
                 textAlign: "right",
-                fontSize: 14,
-                fontWeight: 700,
+                fontSize: 15,
+                fontWeight: 800,
                 fontVariantNumeric: "tabular-nums",
+                fontFamily: "'JetBrains Mono', monospace",
                 color: p.color,
               }}
             >

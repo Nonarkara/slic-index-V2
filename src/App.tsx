@@ -149,10 +149,10 @@ export default function App() {
                     ? "偷师这个创意"
                     : "Steal This Idea"
                 : locale === "th"
-                  ? "ดัชนีเมืองฉลาดและน่าอยู่"
+                  ? "สร้างอันดับเมืองของคุณ"
                   : locale === "zh"
-                    ? "智慧与宜居城市指数"
-                    : "Smart and Liveable Cities Index";
+                    ? "构建你的城市排名"
+                    : "Build Your City Ranking";
 
     document.title = `${routeTitle} · ${localeTitlePrefix}`;
   }, [locale, route]);
