@@ -77,10 +77,10 @@ const defaultSignals: SignalCard[] = [
 const defaultPillars: MethodologyPillar[] = [
   {
     id: "pressure",
-    name: "Pressure",
-    description: "Affordability, cost-of-living burden, housing pressure, and the gap between headline income and daily room to live.",
-    metrics: ["affordability", "housing burden", "cost pressure", "disposable income", "price stability"],
-    note: "The largest pillar weight because a city fails if daily life is unaffordable, regardless of other strengths.",
+    name: "Growth",
+    description: "Economic dynamism, market forces, and their natural impact on affordability. Growth invites capitalism — the market determines housing costs and living expenses unless the state intervenes with welfare.",
+    metrics: ["economic dynamism", "market activity", "GDP growth", "investment flow", "affordability outcome"],
+    note: "The largest pillar weight because a city's growth trajectory shapes everything — from job creation to whether ordinary people can still afford to live there.",
   },
   {
     id: "viability",

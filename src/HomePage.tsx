@@ -18,7 +18,7 @@ const data = buildLandingData();
 
 const modeLabels: Record<ScoreMode, Record<Locale, string>> = {
   slic: { en: "SLIC", th: "SLIC", zh: "SLIC" },
-  pressure: { en: "Pressure", th: "แรงกดดัน", zh: "压力" },
+  pressure: { en: "Growth", th: "การเติบโต", zh: "增长" },
   viability: { en: "Viability", th: "ความเป็นไปได้", zh: "可行性" },
   capability: { en: "Capability", th: "ศักยภาพ", zh: "能力" },
   community: { en: "Community", th: "ชุมชน", zh: "社区" },

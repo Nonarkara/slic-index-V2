@@ -29,7 +29,7 @@ const RULES: ConsequenceRule[] = [
     id: "pressure-extreme",
     trigger: (w) => w.pressure >= 45,
     narrative:
-      "You're betting everything on affordability. Cities that score high here may lack safety nets, public services, or cultural life.",
+      "You're betting everything on growth. Cities with unchecked economic dynamism may become unaffordable — the market determines the outcome unless welfare intervenes.",
     severity: "severe",
     icon: "warning",
   },
@@ -71,7 +71,7 @@ const RULES: ConsequenceRule[] = [
     id: "pressure-neglected",
     trigger: (w) => w.pressure <= 5,
     narrative:
-      "You're ignoring living costs entirely. In your matched cities, you might earn well but spend it all on rent and taxes.",
+      "You're ignoring economic growth entirely. Without dynamism, your matched cities may stagnate — but at least they'll stay affordable.",
     severity: "moderate",
     icon: "alert",
   },
@@ -121,7 +121,7 @@ const RULES: ConsequenceRule[] = [
     id: "pressure-no-viability",
     trigger: (w) => w.pressure >= 35 && w.viability <= 8,
     narrative:
-      "Cheap living but poor infrastructure? That's a developing city with potential — and daily frustrations.",
+      "High growth but poor infrastructure? That's a boomtown with capital flowing in but no pipes to carry it. Daily life suffers while the economy roars.",
     severity: "moderate",
     icon: "insight",
   },
@@ -150,7 +150,7 @@ const RULES: ConsequenceRule[] = [
     id: "capability-pressure-high",
     trigger: (w) => w.capability >= 30 && w.pressure >= 30,
     narrative:
-      "You want excellent services AND affordability. That's the Nordic model — high taxes fund great public goods. Few cities outside Scandinavia achieve this.",
+      "You want excellent services AND strong growth. That's the Nordic model — high taxes fund great public goods while the economy stays dynamic. Few cities outside Scandinavia achieve this.",
     severity: "mild",
     icon: "insight",
   },

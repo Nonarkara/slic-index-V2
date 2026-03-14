@@ -820,9 +820,9 @@ const methodologyContent: Record<Locale, MethodologyData> = {
     pillars: [
       {
         id: "pressure",
-        name: "Pressure",
+        name: "Growth",
         weight: 25,
-        thesis: "A city is not truly liveable if people keep little money, carry excessive debt, and work themselves flat.",
+        thesis: "Economic dynamism determines a city's trajectory. Growth invites capitalism and market forces that shape affordability — unless the state provides welfare as a counterbalance.",
         justification: "This pillar punishes false prosperity and keeps disposable room central to the score.",
         citations: [2, 3, 7],
         metrics: [
@@ -1315,10 +1315,10 @@ const methodologyContent: Record<Locale, MethodologyData> = {
     pillars: [
       {
         id: "pressure",
-        name: "Pressure",
+        name: "Growth",
         weight: 25,
-        thesis: "เมืองจะเรียกว่าน่าอยู่จริงไม่ได้ หากคนแทบไม่เหลือเงิน มีหนี้มาก และต้องทำงานจนหมดแรง",
-        justification: "เสานี้ลงโทษความรุ่งเรืองปลอม และทำให้พื้นที่รายได้ใช้สอยจริงอยู่กลางสูตร",
+        thesis: "พลวัตเศรษฐกิจกำหนดทิศทางเมือง การเติบโตเชิญชวนทุนนิยมและกลไกตลาดที่ส่งผลต่อค่าครองชีพ เว้นแต่รัฐจะจัดสวัสดิการ",
+        justification: "เสานี้วัดพลังเศรษฐกิจและผลกระทบต่อชีวิตจริงของคนเมือง",
         citations: [2, 3, 7],
         metrics: [
           { name: "รายได้ใช้สอยจริงแบบ PPP หลังภาษี", weight: 9, description: "เงินคงเหลือหลังภาษีและค่าใช้จ่ายจำเป็น แปลงเป็น PPP", inputs: ["gross income", "tax rate", "rent", "utilities", "internet", "transport", "food", "PPP factor"] },
@@ -1808,10 +1808,10 @@ const methodologyContent: Record<Locale, MethodologyData> = {
     pillars: [
       {
         id: "pressure",
-        name: "Pressure",
+        name: "Growth",
         weight: 25,
-        thesis: "如果人们留不下钱、债务沉重、工时过长，这座城市就不能算真正宜居。",
-        justification: "这一支柱专门惩罚虚假的繁荣，把真实剩余空间放在核心位置。",
+        thesis: "经济活力决定城市的发展轨迹。增长带来资本主义和市场力量，除非国家提供福利，否则自然影响可负担性。",
+        justification: "这一支柱衡量经济动力及其对城市居民实际生活的影响。",
         citations: [2, 3, 7],
         metrics: [
           { name: "税后 PPP 可支配生活空间", weight: 9, description: "税后扣除必需支出后的 PPP 剩余空间。", inputs: ["gross income", "tax rate", "rent", "utilities", "internet", "transport", "food", "PPP factor"] },

@@ -23,28 +23,28 @@ const PILLAR_COLORS: Record<PillarId, string> = {
 };
 
 const PILLAR_LABELS: Record<Locale, Record<PillarId, string>> = {
-  en: { pressure: "Pressure", viability: "Viability", capability: "Capability", community: "Community", creative: "Creative" },
-  th: { pressure: "แรงกดดัน", viability: "ความน่าอยู่", capability: "ศักยภาพ", community: "ชุมชน", creative: "ความสร้างสรรค์" },
-  zh: { pressure: "压力", viability: "宜居", capability: "能力", community: "社区", creative: "创新" },
+  en: { pressure: "Growth", viability: "Viability", capability: "Capability", community: "Community", creative: "Creative" },
+  th: { pressure: "การเติบโต", viability: "ความน่าอยู่", capability: "ศักยภาพ", community: "ชุมชน", creative: "ความสร้างสรรค์" },
+  zh: { pressure: "增长", viability: "宜居", capability: "能力", community: "社区", creative: "创新" },
 };
 
 const PILLAR_HINTS: Record<Locale, Record<PillarId, string>> = {
   en: {
-    pressure: "Affordability, housing costs, work-life balance",
+    pressure: "Economic dynamism, market forces, affordability as natural outcome",
     viability: "Safety, transit, clean air, climate & sunlight",
     capability: "Healthcare access, education, opportunity",
     community: "Belonging, tolerance, cultural life, birth rate",
     creative: "Innovation, research, entrepreneurship",
   },
   th: {
-    pressure: "ค่าครองชีพ ที่อยู่อาศัย สมดุลชีวิต",
+    pressure: "พลวัตเศรษฐกิจ กลไกตลาด ค่าครองชีพตามกลไก",
     viability: "ความปลอดภัย ขนส่ง อากาศ ภูมิอากาศ",
     capability: "สาธารณสุข การศึกษา โอกาส",
     community: "ความเป็นส่วนหนึ่ง ความอดทน วัฒนธรรม",
     creative: "นวัตกรรม วิจัย ผู้ประกอบการ",
   },
   zh: {
-    pressure: "生活成本、住房、工作生活平衡",
+    pressure: "经济活力、市场力量、自然可负担性",
     viability: "安全、交通、空气、气候与日照",
     capability: "医疗、教育、机会",
     community: "归属、包容、文化生活",
@@ -122,7 +122,7 @@ const interactiveCopy: Record<Locale, {
     resetLabel: "Reset to SLIC defaults",
     canonicalBadge: "SLIC canonical",
     customBadge: "Your priorities",
-    canonicalNote: "SLIC default: P 25 / V 22 / C 18 / Co 15 / Cr 20",
+    canonicalNote: "SLIC default: G 25 / V 22 / C 18 / Co 15 / Cr 20",
     consequencesTitle: "Trade-off insights",
     noConsequences: "Adjust weights to see trade-off insights.",
     yourScore: "Your",
@@ -135,7 +135,7 @@ const interactiveCopy: Record<Locale, {
     regionLabel: "Region",
     allRegions: "All",
     whyThisRanking: "Why this default ranking?",
-    whyExplanation: "SLIC weights Pressure highest (25%) because affordability is the entry barrier to city life. Viability (22%) covers safety, transit, and climate. Creative (20%) captures economic dynamism. Capability (18%) is healthcare and education access. Community (15%) is belonging and tolerance. Kaohsiung and Taipei lead because they combine strong Capability (95+), excellent Viability (87+), and solid Creative scores with moderate living costs.",
+    whyExplanation: "SLIC weights Growth highest (25%) because economic dynamism determines a city's trajectory — growth invites capitalism and market forces that shape affordability unless the state provides welfare. Viability (22%) covers safety, transit, and climate. Creative (20%) captures innovation and entrepreneurship. Capability (18%) is healthcare and education access. Community (15%) is belonging and tolerance. Kaohsiung and Taipei lead because they combine strong Capability (95+), excellent Viability (87+), and solid Creative scores with managed growth.",
   },
   th: {
     heroEyebrow: "สำรวจดัชนี",
@@ -146,7 +146,7 @@ const interactiveCopy: Record<Locale, {
     resetLabel: "รีเซ็ตเป็นค่า SLIC",
     canonicalBadge: "อันดับ SLIC",
     customBadge: "ลำดับของคุณ",
-    canonicalNote: "ค่าเริ่มต้น SLIC: P 25 / V 22 / C 18 / Co 15 / Cr 20",
+    canonicalNote: "ค่าเริ่มต้น SLIC: G 25 / V 22 / C 18 / Co 15 / Cr 20",
     consequencesTitle: "มุมมองข้อแลกเปลี่ยน",
     noConsequences: "ปรับน้ำหนักเพื่อดูข้อแลกเปลี่ยน",
     yourScore: "ของคุณ",
@@ -159,7 +159,7 @@ const interactiveCopy: Record<Locale, {
     regionLabel: "ภูมิภาค",
     allRegions: "ทั้งหมด",
     whyThisRanking: "ทำไมอันดับเริ่มต้นนี้?",
-    whyExplanation: "SLIC ให้น้ำหนักแรงกดดันสูงสุด (25%) เพราะค่าครองชีพเป็นอุปสรรคแรกของชีวิตในเมือง ความน่าอยู่ (22%) ครอบคลุมความปลอดภัย ขนส่ง และภูมิอากาศ เกาสงและไทเปนำเพราะรวมศักยภาพสูง (95+) ความน่าอยู่ดี (87+) และคะแนนสร้างสรรค์ดีในต้นทุนปานกลาง",
+    whyExplanation: "SLIC ให้น้ำหนักการเติบโตสูงสุด (25%) เพราะพลวัตเศรษฐกิจกำหนดทิศทางเมือง การเติบโตเชิญชวนทุนนิยมและกลไกตลาดที่กำหนดค่าครองชีพโดยอัตโนมัติ ความน่าอยู่ (22%) ครอบคลุมความปลอดภัย ขนส่ง และภูมิอากาศ เกาสงและไทเปนำเพราะรวมศักยภาพสูง (95+) ความน่าอยู่ดี (87+) และการเติบโตที่จัดการได้ดี",
   },
   zh: {
     heroEyebrow: "探索指数",
@@ -170,7 +170,7 @@ const interactiveCopy: Record<Locale, {
     resetLabel: "重置为SLIC默认值",
     canonicalBadge: "SLIC标准",
     customBadge: "你的优先级",
-    canonicalNote: "SLIC默认: P 25 / V 22 / C 18 / Co 15 / Cr 20",
+    canonicalNote: "SLIC默认: G 25 / V 22 / C 18 / Co 15 / Cr 20",
     consequencesTitle: "权衡洞察",
     noConsequences: "调整权重以查看权衡洞察。",
     yourScore: "你的",
@@ -183,7 +183,7 @@ const interactiveCopy: Record<Locale, {
     regionLabel: "地区",
     allRegions: "全部",
     whyThisRanking: "为什么是这个默认排名?",
-    whyExplanation: "SLIC将压力权重设为最高(25%)，因为生活成本是城市生活的首要门槛。宜居(22%)涵盖安全、交通和气候。高雄和台北领先，因为它们结合了强大的能力(95+)、优秀的宜居(87+)和可观的创新分数，且成本适中。",
+    whyExplanation: "SLIC将增长权重设为最高(25%)，因为经济活力决定城市的发展轨迹——增长带来资本主义和市场力量，除非国家提供福利，否则自然影响可负担性。宜居(22%)涵盖安全、交通和气候。高雄和台北领先，因为它们结合了强大的能力(95+)、优秀的宜居(87+)和良好管理的增长。",
   },
 };
 
