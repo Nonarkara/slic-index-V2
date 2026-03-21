@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ZeroSumAllocator from "./ZeroSumAllocator";
 import type { PillarAllocation } from "./ZeroSumAllocator";
 import { evaluateConsequences } from "./consequenceRules";
@@ -348,6 +348,15 @@ export default function HomePage({
   const ui = heroCopy[locale];
   const labels = PILLAR_LABELS[locale];
 
+  /* ── visitor counter (fetched from Google Sheets via Apps Script) ── */
+  const [visitors, setVisitors] = useState(12424);
+  useEffect(() => {
+    fetch("https://script.google.com/macros/s/AKfycbz5P8_4CzTfo_0PoRgVWPKg5dI7l2NGn3_pYwCRDjVbFZhxnODO1ZyVWrKLj4cEYtx-nQ/exec?action=count", { mode: "cors" })
+      .then((r) => r.json())
+      .then((d) => { if (d.count) setVisitors(d.count); })
+      .catch(() => {});
+  }, []);
+
   const [pillars, setPillars] = useState<PillarAllocation[]>(
     PILLAR_ORDER.map((id) => ({
       id,
@@ -444,6 +453,15 @@ export default function HomePage({
             }}>
               <span style={{ width: 5, height: 5, background: "#22c55e" }} />
               {locale === "en" ? "Published — 103 cities / 92 signals / 35 sources" : locale === "th" ? "เผยแพร่แล้ว — 103 เมือง / 92 สัญญาณ / 35 แหล่ง" : "已发布 — 103 城市 / 92 信号 / 35 来源"}
+            </div>
+
+            {/* Visitor counter */}
+            <div className="visitor-counter">
+              <span className="visitor-counter-dot" />
+              <span className="visitor-counter-number">{visitors.toLocaleString()}</span>
+              <span className="visitor-counter-label">
+                {locale === "en" ? "visitors since March 18, 2026" : locale === "th" ? "ผู้เยี่ยมชมตั้งแต่ 18 มีนาคม 2569" : "自2026年3月18日以来的访客"}
+              </span>
             </div>
 
             {/* Navigation links */}

@@ -4971,3 +4971,36 @@ section[id] {
     animation: none;
   }
 }
+
+/* ── Visitor counter ── */
+.visitor-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  margin-top: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.visitor-counter-dot {
+  width: 5px;
+  height: 5px;
+  background: #17c9cb;
+  border-radius: 50%;
+}
+
+.visitor-counter-number {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #17c9cb;
+}
+
+.visitor-counter-label {
+  opacity: 0.4;
+  text-transform: none;
+}
