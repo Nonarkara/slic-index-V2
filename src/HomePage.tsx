@@ -422,7 +422,7 @@ export default function HomePage({
   const [visitors, setVisitors] = useState(12424);
   const [visitorCountries, setVisitorCountries] = useState<Array<{ country: string; pct: number }>>([]);
   useEffect(() => {
-    fetch("https://script.google.com/macros/s/AKfycbz5P8_4CzTfo_0PoRgVWPKg5dI7l2NGn3_pYwCRDjVbFZhxnODO1ZyVWrKLj4cEYtx-nQ/exec?action=count", { mode: "cors" })
+    fetch("https://script.google.com/macros/s/AKfycbxq3-DKKX4IuNDQF1SnxCujF1NjBqDlDlSADhc4PdOvpRbi5llSMZHmspkNUc7MVHV99w/exec?action=count", { mode: "cors" })
       .then((r) => r.json())
       .then((d) => {
         if (d.count) setVisitors(d.count);
@@ -539,7 +539,7 @@ export default function HomePage({
             </div>
             {visitorCountries.length > 0 && (
               <div className="visitor-geo">
-                {visitorCountries.slice(0, 6).map((c) => (
+                {visitorCountries.filter((c) => c.country !== "Unknown").slice(0, 6).map((c) => (
                   <span key={c.country} className="visitor-geo-chip">
                     {c.country} <strong>{c.pct}%</strong>
                   </span>
