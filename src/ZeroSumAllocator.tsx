@@ -105,6 +105,7 @@ const SpiderWebChart: FC<{
             fontSize={8}
             fill="rgba(255,255,255,0.15)"
             fontFamily="'JetBrains Mono', monospace"
+            style={{ pointerEvents: "none" }}
           >
             {Math.round(frac * total)}
           </text>
