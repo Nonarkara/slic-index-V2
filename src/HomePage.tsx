@@ -418,12 +418,16 @@ export default function HomePage({
   const ui = heroCopy[locale];
   const labels = PILLAR_LABELS[locale];
 
-  /* ── visitor counter (fetched from Google Sheets via Apps Script) ── */
+  /* ── visitor counter + geography (fetched from Google Sheets via Apps Script) ── */
   const [visitors, setVisitors] = useState(12424);
+  const [visitorCountries, setVisitorCountries] = useState<Array<{ country: string; pct: number }>>([]);
   useEffect(() => {
     fetch("https://script.google.com/macros/s/AKfycbz5P8_4CzTfo_0PoRgVWPKg5dI7l2NGn3_pYwCRDjVbFZhxnODO1ZyVWrKLj4cEYtx-nQ/exec?action=count", { mode: "cors" })
       .then((r) => r.json())
-      .then((d) => { if (d.count) setVisitors(d.count); })
+      .then((d) => {
+        if (d.count) setVisitors(d.count);
+        if (d.countries) setVisitorCountries(d.countries);
+      })
       .catch(() => {});
   }, []);
 
@@ -525,7 +529,7 @@ export default function HomePage({
               {locale === "en" ? "Published — 103 cities / 92 signals / 35 sources" : locale === "th" ? "เผยแพร่แล้ว — 103 เมือง / 92 สัญญาณ / 35 แหล่ง" : "已发布 — 103 城市 / 92 信号 / 35 来源"}
             </div>
 
-            {/* Visitor counter */}
+            {/* Visitor counter + geography */}
             <div className="visitor-counter">
               <span className="visitor-counter-dot" />
               <span className="visitor-counter-number">{visitors.toLocaleString()}</span>
@@ -533,6 +537,15 @@ export default function HomePage({
                 {locale === "en" ? "visitors since March 18, 2026" : locale === "th" ? "ผู้เยี่ยมชมตั้งแต่ 18 มีนาคม 2569" : "自2026年3月18日以来的访客"}
               </span>
             </div>
+            {visitorCountries.length > 0 && (
+              <div className="visitor-geo">
+                {visitorCountries.slice(0, 6).map((c) => (
+                  <span key={c.country} className="visitor-geo-chip">
+                    {c.country} <strong>{c.pct}%</strong>
+                  </span>
+                ))}
+              </div>
+            )}
 
             {/* Navigation links */}
             <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
