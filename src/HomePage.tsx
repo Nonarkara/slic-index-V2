@@ -253,6 +253,77 @@ const homeEditorialCopy: Record<
   },
 };
 
+/* ───── launch section copy ───── */
+
+const LAUNCH_PHOTOS = {
+  hero: "/launch-photos/20260318145941_DSC09480.jpg",
+  stage: "/launch-photos/20260318145249_ABC01948.jpg",
+  slide: "/launch-photos/20260318145319_DSC09441.jpg",
+  laptop: "/launch-photos/20260317094731-_DON7077.jpg",
+  networking: "/launch-photos/20260318151147_DSC09510.jpg",
+};
+
+const launchCopy: Record<Locale, {
+  eyebrow: string;
+  title: string;
+  stats: Array<{ value: string; label: string }>;
+  paragraphs: string[];
+  pullquote: string;
+  photoCaption: string;
+}> = {
+  en: {
+    eyebrow: "The Launch",
+    title: "The SLIC Index Launched on the World\u2019s Smartest Stage",
+    stats: [
+      { value: "174", label: "cities" },
+      { value: "53", label: "countries" },
+      { value: "3,000+", label: "professionals" },
+      { value: "2,250", label: "booths" },
+    ],
+    paragraphs: [
+      "I was one of two keynote speakers at the City Vision stage\u2014the centerpiece of the Smart City Summit & Expo (SCSE) 2026 in Taipei. The Vice President of Taiwan opened the event. The Mayor of Taipei spoke on stage. Foreign ministers and city leaders from around the world gathered under one roof.",
+      "I showed them a war dashboard built in 45 minutes\u2014satellite data from NASA mapping real-time conflict zones. A bus tracker for Phuket that runs without GPS. A citizen reporting system that cut response times from 67 hours to 2 hours. Then I launched the SLIC Index. 103 cities. Five dimensions. Kaohsiung: #1. Taipei: #2. Bangkok: #4. Singapore: #8.",
+      "The room went quiet. Then the questions started. A European mayor\u2019s alliance asked to use it instead of The Economist\u2019s index. City leaders from across Asia and the Americas came up afterward: \u201CCan you do this for my city?\u201D",
+    ],
+    pullquote: "\u201CWe built an index. You build the ranking.\u201D",
+    photoCaption: "City Vision in Action stage, SCSE 2026, Taipei",
+  },
+  th: {
+    eyebrow: "การเปิดตัว",
+    title: "SLIC Index เปิดตัวบนเวทีสมาร์ทซิตี้ที่ใหญ่ที่สุดของโลก",
+    stats: [
+      { value: "174", label: "เมือง" },
+      { value: "53", label: "ประเทศ" },
+      { value: "3,000+", label: "ผู้เชี่ยวชาญ" },
+      { value: "2,250", label: "บูธ" },
+    ],
+    paragraphs: [
+      "\u0e1c\u0e21\u0e40\u0e1b\u0e47\u0e19\u0e2b\u0e19\u0e36\u0e48\u0e07\u0e43\u0e19\u0e2a\u0e2d\u0e07 keynote speaker \u0e1a\u0e19\u0e40\u0e27\u0e17\u0e35 City Vision\u2014\u0e2b\u0e31\u0e27\u0e43\u0e08\u0e02\u0e2d\u0e07\u0e07\u0e32\u0e19 Smart City Summit & Expo (SCSE) 2026 \u0e17\u0e35\u0e48\u0e44\u0e17\u0e40\u0e1b \u0e23\u0e2d\u0e07\u0e1b\u0e23\u0e30\u0e18\u0e32\u0e19\u0e32\u0e18\u0e34\u0e1a\u0e14\u0e35\u0e44\u0e15\u0e49\u0e2b\u0e27\u0e31\u0e19\u0e40\u0e1b\u0e34\u0e14\u0e07\u0e32\u0e19 \u0e1c\u0e39\u0e49\u0e27\u0e48\u0e32\u0e01\u0e23\u0e38\u0e07\u0e44\u0e17\u0e40\u0e1b\u0e02\u0e36\u0e49\u0e19\u0e1e\u0e39\u0e14\u0e1a\u0e19\u0e40\u0e27\u0e17\u0e35 \u0e23\u0e31\u0e10\u0e21\u0e19\u0e15\u0e23\u0e35\u0e41\u0e25\u0e30\u0e1c\u0e39\u0e49\u0e19\u0e33\u0e40\u0e21\u0e37\u0e2d\u0e07\u0e08\u0e32\u0e01\u0e17\u0e31\u0e48\u0e27\u0e42\u0e25\u0e01\u0e21\u0e32\u0e23\u0e27\u0e21\u0e15\u0e31\u0e27\u0e01\u0e31\u0e19",
+      "\u0e1c\u0e21\u0e42\u0e0a\u0e27\u0e4c war dashboard \u0e17\u0e35\u0e48\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e43\u0e19 45 \u0e19\u0e32\u0e17\u0e35 \u0e23\u0e30\u0e1a\u0e1a\u0e15\u0e34\u0e14\u0e15\u0e32\u0e21\u0e23\u0e16\u0e40\u0e21\u0e25\u0e4c\u0e20\u0e39\u0e40\u0e01\u0e47\u0e15\u0e42\u0e14\u0e22\u0e44\u0e21\u0e48\u0e43\u0e0a\u0e49 GPS \u0e23\u0e30\u0e1a\u0e1a\u0e23\u0e49\u0e2d\u0e07\u0e40\u0e23\u0e35\u0e22\u0e19\u0e17\u0e35\u0e48\u0e25\u0e14\u0e40\u0e27\u0e25\u0e32\u0e15\u0e2d\u0e1a\u0e2a\u0e19\u0e2d\u0e07\u0e08\u0e32\u0e01 67 \u0e0a\u0e31\u0e48\u0e27\u0e42\u0e21\u0e07\u0e40\u0e2b\u0e25\u0e37\u0e2d 2 \u0e0a\u0e31\u0e48\u0e27\u0e42\u0e21\u0e07 \u0e41\u0e25\u0e49\u0e27\u0e40\u0e1b\u0e34\u0e14\u0e15\u0e31\u0e27 SLIC Index \u0e40\u0e01\u0e32\u0e2a\u0e07: #1 \u0e44\u0e17\u0e40\u0e1b: #2 \u0e01\u0e23\u0e38\u0e07\u0e40\u0e17\u0e1e: #4",
+      "\u0e2b\u0e49\u0e2d\u0e07\u0e40\u0e07\u0e35\u0e22\u0e1a\u0e25\u0e07 \u0e41\u0e25\u0e49\u0e27\u0e04\u0e33\u0e16\u0e32\u0e21\u0e01\u0e47\u0e40\u0e23\u0e34\u0e48\u0e21 \u0e1e\u0e31\u0e19\u0e18\u0e21\u0e34\u0e15\u0e23\u0e19\u0e32\u0e22\u0e01\u0e40\u0e17\u0e28\u0e21\u0e19\u0e15\u0e23\u0e35\u0e22\u0e38\u0e42\u0e23\u0e1b\u0e02\u0e2d\u0e43\u0e0a\u0e49\u0e41\u0e17\u0e19\u0e14\u0e31\u0e0a\u0e19\u0e35\u0e02\u0e2d\u0e07 The Economist \u0e1c\u0e39\u0e49\u0e19\u0e33\u0e40\u0e21\u0e37\u0e2d\u0e07\u0e08\u0e32\u0e01\u0e40\u0e2d\u0e40\u0e0a\u0e35\u0e22\u0e41\u0e25\u0e30\u0e2d\u0e40\u0e21\u0e23\u0e34\u0e01\u0e32\u0e16\u0e32\u0e21\u0e27\u0e48\u0e32: \u201C\u0e17\u0e33\u0e43\u0e2b\u0e49\u0e40\u0e21\u0e37\u0e2d\u0e07\u0e02\u0e2d\u0e07\u0e1c\u0e21\u0e44\u0e14\u0e49\u0e44\u0e2b\u0e21?\u201D",
+    ],
+    pullquote: "\u201C\u0e40\u0e23\u0e32\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e14\u0e31\u0e0a\u0e19\u0e35 \u0e04\u0e38\u0e13\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e2d\u0e31\u0e19\u0e14\u0e31\u0e1a\u201D",
+    photoCaption: "\u0e40\u0e27\u0e17\u0e35 City Vision in Action, SCSE 2026, \u0e44\u0e17\u0e40\u0e1b",
+  },
+  zh: {
+    eyebrow: "\u53d1\u5e03",
+    title: "SLIC \u6307\u6570\u5728\u5168\u7403\u6700\u5927\u667a\u6167\u57ce\u5e02\u821e\u53f0\u4e0a\u53d1\u5e03",
+    stats: [
+      { value: "174", label: "\u57ce\u5e02" },
+      { value: "53", label: "\u56fd\u5bb6" },
+      { value: "3,000+", label: "\u4e13\u4e1a\u4eba\u58eb" },
+      { value: "2,250", label: "\u5c55\u4f4d" },
+    ],
+    paragraphs: [
+      "\u6211\u662f City Vision \u821e\u53f0\u7684\u4e24\u4f4d\u4e3b\u9898\u6f14\u8bb2\u8005\u4e4b\u4e00\u2014\u2014\u8fd9\u662f 2026 \u5e74\u53f0\u5317\u667a\u6167\u57ce\u5e02\u5c55\u89c8\u4f1a (SCSE) \u7684\u6838\u5fc3\u821e\u53f0\u3002\u53f0\u6e7e\u526f\u603b\u7edf\u5f00\u5e55\uff0c\u53f0\u5317\u5e02\u957f\u767b\u53f0\u6f14\u8bb2\uff0c\u5404\u56fd\u5916\u4ea4\u90e8\u957f\u548c\u57ce\u5e02\u9886\u5bfc\u4eba\u9f50\u805a\u4e00\u5802\u3002",
+      "\u6211\u5c55\u793a\u4e8645\u5206\u949f\u5185\u6784\u5efa\u7684\u6218\u4e89\u4eea\u8868\u76d8\u3001\u4e0d\u4f7f\u7528GPS\u7684\u666e\u5409\u5c9b\u516c\u4ea4\u8ffd\u8e2a\u5668\u3001\u5c06\u54cd\u5e94\u65f6\u95f4\u4ece67\u5c0f\u65f6\u7f29\u77ed\u52302\u5c0f\u65f6\u7684\u5e02\u6c11\u62a5\u544a\u7cfb\u7edf\u3002\u7136\u540e\u53d1\u5e03\u4e86 SLIC \u6307\u6570\u3002\u9ad8\u96c4: #1\u3002\u53f0\u5317: #2\u3002\u66fc\u8c37: #4\u3002\u65b0\u52a0\u5761: #8\u3002",
+      "\u5168\u573a\u9759\u9ed8\u3002\u7136\u540e\u95ee\u9898\u5f00\u59cb\u4e86\u3002\u6b27\u6d32\u5e02\u957f\u8054\u76df\u8981\u6c42\u7528\u5b83\u66ff\u4ee3\u300a\u7ecf\u6d4e\u5b66\u4eba\u300b\u7684\u6307\u6570\u3002\u4e9a\u6d32\u548c\u7f8e\u6d32\u7684\u57ce\u5e02\u9886\u5bfc\u4eba\u95ee\uff1a\u201c\u80fd\u4e3a\u6211\u7684\u57ce\u5e02\u505a\u8fd9\u4e2a\u5417\uff1f\u201d",
+    ],
+    pullquote: "\u201c\u6211\u4eec\u5efa\u7acb\u6307\u6570\u3002\u4f60\u6765\u6784\u5efa\u6392\u540d\u3002\u201d",
+    photoCaption: "City Vision in Action \u821e\u53f0\uff0cSCSE 2026\uff0c\u53f0\u5317",
+  },
+};
+
 const spotlightTranslations: Record<
   Locale,
   Record<string, { kicker: string; reason: string; highlights: string[] }>
@@ -604,6 +675,46 @@ export default function HomePage({
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        {/* ═══════ THE LAUNCH ═══════ */}
+        <section className="launch-section section">
+          <p className="eyebrow">{launchCopy[locale].eyebrow}</p>
+
+          <div className="launch-hero-grid">
+            <figure className="launch-hero-photo">
+              <img src={LAUNCH_PHOTOS.hero} alt={launchCopy[locale].photoCaption} loading="lazy" />
+              <figcaption>{launchCopy[locale].photoCaption}</figcaption>
+            </figure>
+
+            <div className="launch-hero-text">
+              <h2>{launchCopy[locale].title}</h2>
+              <div className="launch-stats">
+                {launchCopy[locale].stats.map((s) => (
+                  <div key={s.label} className="launch-stat">
+                    <span className="launch-stat-value">{s.value}</span>
+                    <span className="launch-stat-label">{s.label}</span>
+                  </div>
+                ))}
+              </div>
+              <p>{launchCopy[locale].paragraphs[0]}</p>
+            </div>
+          </div>
+
+          <div className="launch-photo-strip">
+            {[LAUNCH_PHOTOS.stage, LAUNCH_PHOTOS.slide, LAUNCH_PHOTOS.laptop, LAUNCH_PHOTOS.networking].map((src) => (
+              <img key={src} src={src} alt="" loading="lazy" />
+            ))}
+          </div>
+
+          <div className="launch-narrative">
+            {launchCopy[locale].paragraphs.slice(1).map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+            <blockquote className="launch-pullquote">
+              {launchCopy[locale].pullquote}
+            </blockquote>
           </div>
         </section>
 
