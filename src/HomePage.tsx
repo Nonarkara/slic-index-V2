@@ -7,7 +7,6 @@ import publishedData from "./data/publishedRankingData.json";
 import { buildLandingData } from "./landingData";
 import { rankingRegions } from "./rankingsData";
 // RankingIntegrityBanner used on rankings page; home uses inline status line
-import { editorialPhotos, homeSupportPhotos } from "./editorialPhotos";
 import { getMethodologyData } from "./methodologyData";
 import PillarWeightChart from "./PillarWeightChart";
 // getCopy used indirectly via other modules
@@ -652,32 +651,6 @@ export default function HomePage({
               </div>
               <PillarWeightChart pillars={methodology.pillars} compact shareLabel={methodology.weightChartLabel} />
             </article>
-
-            <div className="methodology-fragment-stack">
-              {methodology.equationSection.groups.flatMap((group) => group.equations).slice(0, 3).map((equation) => (
-                <article className="methodology-fragment" key={equation.title}>
-                  <p className="panel-label">{equation.title}</p>
-                  <pre className="formula-display formula-display-compact methodology-fragment-formula">
-                    {equation.formula}
-                  </pre>
-                  <p>{equation.explanation}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div className="landing-context-grid">
-            <article className="paper-card landing-context-card">
-              <p className="panel-label">{editorialCopy.methodologySurfaceTitle}</p>
-              <h3>{editorialCopy.methodologyTitle}</h3>
-              <p>{editorialCopy.methodologySurfaceSummary}</p>
-            </article>
-            {homeSupportPhotos.map((photo) => (
-              <figure className="photo-frame photo-frame-support" key={photo.id}>
-                <img src={photo.src} alt={photo.alt} loading="lazy" />
-                <figcaption>{photo.caption}</figcaption>
-              </figure>
-            ))}
           </div>
 
           <div className="pillar-grid">
@@ -716,14 +689,8 @@ export default function HomePage({
             <p className="section-summary">{editorialCopy.spotlightsSummary}</p>
           </div>
 
-          <div className="spotlight-intro-visual">
-            <figure className="photo-frame photo-frame-wide spotlight-hero-photo">
-              <img src={editorialPhotos[3]?.src} alt={editorialPhotos[3]?.alt} loading="lazy" />
-            </figure>
-          </div>
-
           <div className="spotlight-grid">
-            {data.spotlights.map((spotlight) => {
+            {data.spotlights.slice(0, 3).map((spotlight) => {
               const localizedSpotlight = spotlightTranslations[locale][spotlight.id];
               return (
                 <article className="spotlight-card" key={spotlight.id}>
