@@ -11,7 +11,6 @@ import { getMethodologyData } from "./methodologyData";
 import PillarWeightChart from "./PillarWeightChart";
 // getCopy used indirectly via other modules
 import SiteFooter from "./SiteFooter";
-import SmartCityFeedPanel from "./SmartCityFeedPanel";
 import type { Locale, SitePath } from "./types";
 
 const data = buildLandingData();
@@ -324,76 +323,7 @@ const launchCopy: Record<Locale, {
   },
 };
 
-const spotlightTranslations: Record<
-  Locale,
-  Record<string, { kicker: string; reason: string; highlights: string[] }>
-> = {
-  en: {},
-  th: {
-    taipei: {
-      kicker: "แม่นยำโดยไม่เย็นชา",
-      reason: "ไทเปแสดงให้เห็นว่าดัชนีนี้มองเกิน GDP เมืองนี้เปลี่ยนความปลอดภัย ระบบขนส่ง มารยาท วัฒนธรรมอาหาร และความเป็นระเบียบให้กลายเป็นเมืองที่ไว้ใจได้",
-      highlights: ["ปลอดภัยและสงบ", "ขนส่งดีเยี่ยม", "วัฒนธรรมอาหารเข้มข้น", "สะดวกในชีวิตประจำวัน"],
-    },
-    bangkok: {
-      kicker: "ยุ่งในแบบที่มีชีวิต",
-      reason: "กรุงเทพฯ ได้คะแนนเพราะความหลากหลายมีความหมาย ทั้งการต้อนรับ ความยืดหยุ่นของราคา ชีวิตกลางคืน อาหาร และพลังทางสังคม",
-      highlights: ["หลายระดับราคา", "จังหวะเมือง 24/7", "การต้อนรับสูง", "ความหนาแน่นทางวัฒนธรรม"],
-    },
-    jeju: {
-      kicker: "ชีวิตเกาะที่ยังมีความทรงจำ",
-      reason: "เชจูย้ำว่าความน่าอยู่รวมถึงความสงบ ความงาม ประเพณีท้องถิ่น และพื้นที่ให้หายใจ",
-      highlights: ["ชายฝั่งและเส้นทางธรรมชาติ", "แรงกดดันต่ำกว่า", "อัตลักษณ์ท้องถิ่นชัด", "ฐานความปลอดภัยแข็งแรง"],
-    },
-    busan: {
-      kicker: "กล้ามเนื้อเศรษฐกิจในขนาดที่ยังเป็นมนุษย์",
-      reason: "ปูซานสะท้อนแกนกลางของดัชนีนี้ คุณสามารถเก็บพลวัต ความแข็งแรงด้านโลจิสติกส์ได้โดยไม่ทำให้ชีวิตกลายเป็นความตึงเครียด",
-      highlights: ["เศรษฐกิจท่าเรือ", "ความน่าอยู่แบบเมืองชายฝั่ง", "สมดุลดีกว่า", "จังหวะเมืองแข็งแรง"],
-    },
-    shanghai: {
-      kicker: "หลักฐานว่าความมั่งคั่งก็มีต้นทุน",
-      reason: "เซี่ยงไฮ้อยู่ในลิสต์นี้เพราะดัชนีไม่ได้โรแมนติกกับความสามารถ มันบันทึกต้นทุนด้าน affordability ที่ติดมากับความสำเร็จ",
-      highlights: ["แรงโน้มเศรษฐกิจ", "ระบบขนส่งระดับโลก", "การจัดการเมืองสะอาด", "แรงกดดันด้านที่อยู่อาศัย"],
-    },
-    penang: {
-      kicker: "ประวัติศาสตร์ที่อยู่กับวงจรอุตสาหกรรม",
-      reason: "ปีนังแสดงให้เห็นว่าเมืองขนาดเล็กกว่าสามารถชนะชื่อดังได้ มรดก อาหาร และความลึกทางอุตสาหกรรมรวมกัน",
-      highlights: ["ถนนมรดก", "เมืองอาหาร", "เครือข่ายเซมิคอนดักเตอร์", "ขนาดที่ยังอยู่สบาย"],
-    },
-  },
-  zh: {
-    taipei: {
-      kicker: "精密但不冰冷",
-      reason: "台北说明了为什么这个指数要超越 GDP。它把安全、交通、礼貌、饮食文化与日常秩序组合成一座真正值得信任的城市。",
-      highlights: ["安全安静", "交通极强", "饮食文化深", "日常便利高"],
-    },
-    bangkok: {
-      kicker: "最好的那种复杂与热闹",
-      reason: "曼谷得分高，是因为多样性本身就重要。好客、价格弹性、夜生活、食物与社会能量。",
-      highlights: ["预算层级多", "24/7 城市节奏", "好客度强", "文化密度高"],
-    },
-    jeju: {
-      kicker: "有记忆的岛屿生活",
-      reason: "济州提醒我们，宜居性也包括安静、美感、地方传统与呼吸空间。",
-      highlights: ["海岸与步道", "压力更低", "地方个性强", "安全基线高"],
-    },
-    busan: {
-      kicker: "有经济肌肉，也保有人类尺度",
-      reason: "釜山体现了这个指数的核心：一座城市可以保持活力、物流实力与都市重要性，而不必把日常生活变成持续紧绷。",
-      highlights: ["港口经济", "滨海宜居性", "平衡更好", "城市节奏强"],
-    },
-    shanghai: {
-      kicker: "繁荣也有边界",
-      reason: "上海出现在这里，是因为这个指数并不浪漫化大城市能力。它清楚标记超大城市成功附带的成本。",
-      highlights: ["经济引力", "世界级交通", "城市管理整洁", "住房压力上升"],
-    },
-    penang: {
-      kicker: "历史与产业线路并存",
-      reason: "槟城说明了为什么较小城市也能胜过更有名的名字。遗产、食物与产业深度结合。",
-      highlights: ["遗产街区", "美食之城", "半导体链条", "宜居尺度"],
-    },
-  },
-};
+/* spotlightTranslations removed in V2.1 — spotlights section cut */
 
 /* ───── main component ───── */
 
@@ -492,53 +422,23 @@ export default function HomePage({
           {/* LEFT — thesis */}
           <div className="home-hero-copy">
             <p className="eyebrow" style={{ marginBottom: 6 }}>{ui.eyebrow}</p>
-            <h1 style={{
-              fontFamily: "var(--font-heading)",
-              fontSize: "clamp(24px, 3.8vw, 44px)",
-              fontWeight: 400,
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
-              margin: "0 0 12px",
-              whiteSpace: "pre-line",
-            }}>
+            <h1 className="hero-title-v2">
               {ui.title}
             </h1>
-            <p style={{ fontSize: 13, lineHeight: 1.65, opacity: 0.5, margin: "0 0 16px", maxWidth: 420 }}>
+            <p className="hero-strapline-v2">
               {ui.strapline}
             </p>
 
-            {/* Pillar legend — compact inline */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 12px", marginBottom: 12 }}>
-              {PILLAR_ORDER.map((id) => (
-                <span key={id} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 10, fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.04em", opacity: 0.55 }}>
-                  <span style={{ width: 6, height: 6, background: PILLAR_COLORS[id], flexShrink: 0 }} />
-                  {labels[id]}
-                </span>
-              ))}
-            </div>
-
-            {/* Compact status line */}
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              padding: "4px 0", marginBottom: 8,
-              fontSize: 10, fontFamily: "'JetBrains Mono', monospace",
-              letterSpacing: "0.06em", textTransform: "uppercase",
-              opacity: 0.4,
-            }}>
-              <span style={{ width: 5, height: 5, background: "#22c55e" }} />
-              {locale === "en" ? "Published — 103 cities / 92 signals / 35 sources" : locale === "th" ? "เผยแพร่แล้ว — 103 เมือง / 92 สัญญาณ / 35 แหล่ง" : "已发布 — 103 城市 / 92 信号 / 35 来源"}
-            </div>
-
-            {/* Visitor counter + geography */}
-            <div className="visitor-counter">
-              <span className="visitor-counter-dot" />
-              <span className="visitor-counter-number">{visitors.toLocaleString()}</span>
-              <span className="visitor-counter-label">
+            {/* Visitor counter — thin pill */}
+            <div className="visitor-pill">
+              <span className="visitor-pill-dot" />
+              <span className="visitor-pill-number">{visitors.toLocaleString()}</span>
+              <span className="visitor-pill-label">
                 {locale === "en" ? "visitors since March 18, 2026" : locale === "th" ? "ผู้เยี่ยมชมตั้งแต่ 18 มีนาคม 2569" : "自2026年3月18日以来的访客"}
               </span>
             </div>
             {visitorCountries.length > 0 && (
-              <div className="visitor-geo">
+              <div className="visitor-geo visitor-geo-v2">
                 {visitorCountries.filter((c) => c.country !== "Unknown").slice(0, 6).map((c) => (
                   <span key={c.country} className="visitor-geo-chip">
                     {c.country} <strong>{c.pct}%</strong>
@@ -570,7 +470,7 @@ export default function HomePage({
 
           {/* RIGHT — spider */}
           <div className="home-hero-spider">
-            <ZeroSumAllocator pillars={pillars} onChange={setPillars} size={300} />
+            <ZeroSumAllocator pillars={pillars} onChange={setPillars} size={420} />
             <button
               type="button"
               className="rankings-reset-btn"
@@ -703,14 +603,14 @@ export default function HomePage({
 
             <div className="launch-hero-text">
               <h2>{launchCopy[locale].title}</h2>
-              <div className="launch-stats">
-                {launchCopy[locale].stats.map((s) => (
-                  <div key={s.label} className="launch-stat">
-                    <span className="launch-stat-value">{s.value}</span>
-                    <span className="launch-stat-label">{s.label}</span>
-                  </div>
+              <p className="launch-inline-stats">
+                {launchCopy[locale].stats.map((s, i) => (
+                  <span key={s.label}>
+                    {i > 0 && " · "}
+                    <span className="launch-inline-stat">{s.value}</span> {s.label}
+                  </span>
                 ))}
-              </div>
+              </p>
               <p>{launchCopy[locale].paragraphs[0]}</p>
             </div>
           </div>
@@ -731,66 +631,28 @@ export default function HomePage({
           </div>
         </section>
 
-        {/* ═══════ MANIFESTO ═══════ */}
-        <section className="manifesto section">
-          <div className="manifesto-layout">
-            <div className="manifesto-editorial">
-              <p className="eyebrow">{locale === "en" ? "Why this exists" : locale === "th" ? "เหตุผลที่สิ่งนี้ต้องมี" : "为什么它必须存在"}</p>
-              <h2>{editorialCopy.manifestoTitle}</h2>
-              <p>{editorialCopy.manifestoBody}</p>
-              <pre className="manifesto-formula">{editorialCopy.manifestoFormula}</pre>
-            </div>
-            <div className="manifesto-doctrine">
-              {editorialCopy.manifestoDoctrine.map((item, index) => (
-                <article className="manifesto-doctrine-row" key={item.title}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.body}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* ═══════ THE THESIS ═══════ */}
+        <section className="thesis section" id="methodology">
+          <p className="eyebrow">{locale === "en" ? "The thesis" : locale === "th" ? "แก่นความคิด" : "核心论点"}</p>
+          <h2 className="thesis-title">{editorialCopy.manifestoTitle}</h2>
+          <pre className="manifesto-formula thesis-formula">{editorialCopy.manifestoFormula}</pre>
 
-        {/* ═══════ METHODOLOGY SNAPSHOT ═══════ */}
-        <section className="methodology section" id="methodology">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">{locale === "en" ? "Methodology snapshot" : locale === "th" ? "ภาพรวมระเบียบวิธี" : "方法论快照"}</p>
-              <h2>{editorialCopy.methodologyTitle}</h2>
-            </div>
-            <p className="section-summary">{editorialCopy.methodologySummary}</p>
-          </div>
-
-          <div className="methodology-snapshot-grid">
-            <article className="paper-card weight-card">
-              <div className="weight-card-head">
-                <div>
-                  <p className="panel-label">{editorialCopy.weightLabel}</p>
-                  <h3>{editorialCopy.weightTitle}</h3>
-                </div>
-                <p className="section-summary">{editorialCopy.weightSummary}</p>
-              </div>
-              <PillarWeightChart pillars={methodology.pillars} compact shareLabel={methodology.weightChartLabel} />
-            </article>
-          </div>
-
-          <div className="pillar-grid">
+          <div className="thesis-pillars-strip">
             {data.pillars.map((pillar) => (
-              <article className="pillar-card" key={pillar.id}>
-                <p className="pillar-id">{pillar.name}</p>
-                <h3>{pillar.description}</h3>
-                <div className="metric-taglist">
-                  {pillar.metrics.map((metric) => (
-                    <span key={metric}>{metric}</span>
-                  ))}
-                </div>
-                <p className="pillar-note">{pillar.note}</p>
-              </article>
+              <div className="thesis-pillar" key={pillar.id}>
+                <span className="thesis-pillar-dot" style={{ background: PILLAR_COLORS[pillar.id as PillarId] }} />
+                <h4>{pillar.name}</h4>
+                <p>{pillar.description}</p>
+              </div>
             ))}
           </div>
+
+          <PillarWeightChart pillars={methodology.pillars} compact shareLabel={methodology.weightChartLabel} />
+
+          <blockquote className="thesis-doctrine-quote">
+            <strong>{editorialCopy.manifestoDoctrine[0].title}</strong>
+            <p>{editorialCopy.manifestoDoctrine[0].body}</p>
+          </blockquote>
 
           <div className="section-actions">
             <a
@@ -803,41 +665,8 @@ export default function HomePage({
           </div>
         </section>
 
-        {/* ═══════ CITY SPOTLIGHTS ═══════ */}
-        <section className="city-spotlights section" id="city-spotlights">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">{editorialCopy.spotlightsEyebrow}</p>
-              <h2>{editorialCopy.spotlightsTitle}</h2>
-            </div>
-            <p className="section-summary">{editorialCopy.spotlightsSummary}</p>
-          </div>
-
-          <div className="spotlight-grid">
-            {data.spotlights.slice(0, 3).map((spotlight) => {
-              const localizedSpotlight = spotlightTranslations[locale][spotlight.id];
-              return (
-                <article className="spotlight-card" key={spotlight.id}>
-                  <p className="spotlight-kicker">
-                    {localizedSpotlight?.kicker ?? spotlight.kicker}
-                  </p>
-                  <h3>
-                    {spotlight.city}, {spotlight.country}
-                  </h3>
-                  <p>{localizedSpotlight?.reason ?? spotlight.reason}</p>
-                  <div className="metric-taglist">
-                    {(localizedSpotlight?.highlights ?? spotlight.highlights).map((highlight) => (
-                      <span key={highlight}>{highlight}</span>
-                    ))}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </section>
       </main>
 
-      <SmartCityFeedPanel locale={locale} />
       <SiteFooter onNavigate={onNavigate} locale={locale} />
     </>
   );

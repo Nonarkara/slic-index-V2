@@ -4940,8 +4940,9 @@ section[id] {
 }
 @media (min-width: 768px) {
   .home-hero-split {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
-    gap: 24px;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 450px);
+    gap: 32px;
+    align-items: center;
   }
 }
 .home-hero-copy {
@@ -5028,6 +5029,176 @@ section[id] {
   color: var(--accent-cyan);
   font-weight: 600;
   opacity: 1;
+}
+
+/* ── V2.1 Hero ── */
+.hero-title-v2 {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 0 0 14px;
+  white-space: pre-line;
+}
+
+.hero-strapline-v2 {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.45;
+  margin: 0 0 16px;
+  max-width: 400px;
+}
+
+/* ── V2.1 Visitor pill ── */
+.visitor-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  margin: 8px 0 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.visitor-pill-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.visitor-pill-number {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-cyan);
+}
+
+.visitor-pill-label {
+  opacity: 0.35;
+}
+
+.visitor-geo-v2 {
+  max-height: 44px;
+  overflow: hidden;
+}
+
+/* ── V2.1 Thesis (merged manifesto + methodology) ── */
+.thesis {
+  border-top: 1px solid var(--border);
+  position: relative;
+}
+
+.thesis-title {
+  font-size: clamp(20px, 2.5vw, 28px);
+  margin: 0 0 1rem;
+}
+
+.thesis-formula {
+  margin: 0 0 2rem;
+  font-size: 1rem;
+}
+
+.thesis-pillars-strip {
+  display: flex;
+  gap: 1px;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.thesis-pillar {
+  flex: 1;
+  min-width: 160px;
+  padding: 1rem 1.2rem;
+  background: var(--surface-soft);
+  border-right: 1px solid var(--border);
+}
+
+.thesis-pillar:last-child {
+  border-right: none;
+}
+
+.thesis-pillar-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-bottom: 8px;
+}
+
+.thesis-pillar h4 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  margin: 0 0 6px;
+  line-height: 1.1;
+}
+
+.thesis-pillar p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.5;
+}
+
+.thesis-doctrine-quote {
+  margin: 2rem 0;
+  padding-left: 16px;
+  border-left: 2px solid var(--accent-cyan);
+  font-style: italic;
+  opacity: 0.65;
+}
+
+.thesis-doctrine-quote strong {
+  display: block;
+  font-style: normal;
+  margin-bottom: 4px;
+}
+
+.thesis-doctrine-quote p {
+  margin: 0;
+}
+
+/* ── V2.1 Launch inline stats ── */
+.launch-inline-stats {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  opacity: 0.5;
+  margin-bottom: 16px;
+}
+
+.launch-inline-stat {
+  font-weight: 700;
+  color: var(--accent-cyan);
+  opacity: 1;
+}
+
+/* ── V2.1 Mobile ── */
+@media (max-width: 760px) {
+  .home-hero-spider {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .thesis-pillars-strip {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .thesis-pillar {
+    min-width: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
 }
 
 /* ───── Launch section ───── */

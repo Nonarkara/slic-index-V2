@@ -100,8 +100,8 @@ const SpiderWebChart: FC<{
           />
           {/* Ring value label */}
           <text
-            x={cx + 4}
-            y={cy - maxR * frac + 3}
+            x={cx + 8}
+            y={cy - maxR * frac - 2}
             fontSize={8}
             fill="rgba(255,255,255,0.15)"
             fontFamily="'JetBrains Mono', monospace"
@@ -161,7 +161,7 @@ const SpiderWebChart: FC<{
       {pillars.map((p, i) => {
         const r = (p.value / total) * maxR;
         const pt = polarToCartesian(cx, cy, r, i * step);
-        const labelR = maxR + 28;
+        const labelR = maxR + 36;
         const labelPt = polarToCartesian(cx, cy, labelR, i * step);
         const isDragging = draggingIndex === i;
 
