@@ -47,6 +47,12 @@ interface CityScreenProfile {
   healthcareCost?: number;
   religiousViolence?: number;
   housingPriceIndex?: number;
+  /** 0-100: low = stagnant/retirement, high = growing/dynamic */
+  growthMomentum?: number;
+  /** 0-100: low = intolerant (anti-LGBTQ, ethnic discrimination), high = open */
+  toleranceOpenness?: number;
+  /** 0-100: low = everything is green, high = concrete desert / no parks */
+  greenSpaceDeficit?: number;
 }
 
 interface CityAccent {
@@ -251,11 +257,11 @@ const regionProfiles: Record<string, RegionProfile> = {
     tags: ["trajectory", "regional hub", "contrast"],
   },
   Oceania: {
-    pressure: 66,
-    viability: 81,
-    capability: 74,
-    community: 74,
-    creative: 68,
+    pressure: 62,
+    viability: 76,
+    capability: 72,
+    community: 70,
+    creative: 62,
     pppIncomePerHead: 30000,
     graduateHousingShare: 40,
     experienceDiversity: 72,
@@ -304,31 +310,33 @@ const cityScreenOverrides: Record<string, Partial<CityScreenProfile>> = {
   monaco: { safety: 98, affordability: 5, equality: 70, civicFreedom: 85, ecology: 80, crowding: 40, boringIndex: 95, flatExperience: 90, housingPriceIndex: 99 },
   vancouver: { safety: 85, affordability: 15, equality: 70, civicFreedom: 90, ecology: 90, crowding: 45, boringIndex: 80, flatExperience: 85, housingPriceIndex: 96 },
 
-  taipei: { safety: 93, affordability: 84, equality: 82, civicFreedom: 84, ecology: 79, crowding: 56 },
-  busan: { safety: 89, affordability: 80, equality: 74, civicFreedom: 77, ecology: 74, crowding: 46 },
-  fukuoka: { safety: 91, affordability: 82, equality: 76, civicFreedom: 85, ecology: 78, crowding: 44 },
-  bangkok: { safety: 77, affordability: 90, equality: 64, civicFreedom: 79, ecology: 52, crowding: 69 },
+  // ── Top-tier cities: high growth, tolerant, affordable, liveable ──
+  taipei: { safety: 93, affordability: 84, equality: 82, civicFreedom: 84, ecology: 79, crowding: 56, growthMomentum: 78, toleranceOpenness: 82, greenSpaceDeficit: 35 },
+  busan: { safety: 89, affordability: 80, equality: 74, civicFreedom: 77, ecology: 74, crowding: 46, growthMomentum: 72, toleranceOpenness: 65, greenSpaceDeficit: 30 },
+  fukuoka: { safety: 91, affordability: 82, equality: 76, civicFreedom: 85, ecology: 78, crowding: 44, growthMomentum: 70, toleranceOpenness: 68, greenSpaceDeficit: 28 },
+  bangkok: { safety: 77, affordability: 90, equality: 64, civicFreedom: 79, ecology: 52, crowding: 69, growthMomentum: 80, toleranceOpenness: 78, greenSpaceDeficit: 42 },
   jakarta: { safety: 60, affordability: 74, equality: 52, civicFreedom: 68, ecology: 37, crowding: 82 },
   makati: { safety: 76, affordability: 66, equality: 55, civicFreedom: 68, ecology: 51, crowding: 68 },
   "jeju-city": { safety: 91, affordability: 79, equality: 76, civicFreedom: 84, ecology: 90, crowding: 39 },
   penang: { safety: 81, affordability: 85, equality: 68, civicFreedom: 80, ecology: 65, crowding: 58 },
-  kaohsiung: { safety: 87, affordability: 85, equality: 80, civicFreedom: 84, ecology: 71, crowding: 49 },
+  kaohsiung: { safety: 87, affordability: 85, equality: 80, civicFreedom: 84, ecology: 71, crowding: 49, growthMomentum: 76, toleranceOpenness: 80, greenSpaceDeficit: 22 },
   shanghai: { safety: 87, affordability: 58, equality: 60, civicFreedom: 48, ecology: 54, crowding: 72 },
   shenzhen: { safety: 85, affordability: 62, equality: 61, civicFreedom: 49, ecology: 61, crowding: 69 },
   tianjin: { safety: 82, affordability: 68, equality: 60, civicFreedom: 48, ecology: 56, crowding: 63 },
   yokohama: { safety: 90, affordability: 68, equality: 75, civicFreedom: 84, ecology: 73, crowding: 54 },
-  singapore: { safety: 95, affordability: 42, equality: 71, civicFreedom: 60, ecology: 74, crowding: 67 },
+  singapore: { safety: 95, affordability: 42, equality: 71, civicFreedom: 60, ecology: 74, crowding: 67, growthMomentum: 68, toleranceOpenness: 32 },
   phuket: { safety: 75, affordability: 60, equality: 62, civicFreedom: 78, ecology: 62, crowding: 79 },
-  "chiang-mai": { safety: 79, affordability: 87, equality: 68, civicFreedom: 81, ecology: 52, crowding: 52 },
-  "kuala-lumpur": { safety: 74, affordability: 77, equality: 58, civicFreedom: 68, ecology: 58, crowding: 64 },
+  "chiang-mai": { safety: 79, affordability: 87, equality: 68, civicFreedom: 81, ecology: 52, crowding: 52, growthMomentum: 72, toleranceOpenness: 76 },
+  "kuala-lumpur": { safety: 74, affordability: 77, equality: 58, civicFreedom: 68, ecology: 58, crowding: 64, toleranceOpenness: 38 },
   "george-town": { safety: 81, affordability: 84, equality: 68, civicFreedom: 80, ecology: 64, crowding: 57 },
   kuching: { safety: 80, affordability: 86, equality: 69, civicFreedom: 81, ecology: 73, crowding: 42 },
   "hat-yai": { safety: 72, affordability: 84, equality: 61, civicFreedom: 73, ecology: 63, crowding: 48 },
   sapporo: { safety: 89, affordability: 78, equality: 77, civicFreedom: 85, ecology: 84, crowding: 41 },
   nagasaki: { safety: 88, affordability: 80, equality: 77, civicFreedom: 85, ecology: 80, crowding: 39 },
   kobe: { safety: 88, affordability: 72, equality: 75, civicFreedom: 84, ecology: 74, crowding: 51 },
-  tokyo: { safety: 92, affordability: 35, equality: 76, civicFreedom: 85, ecology: 67, crowding: 86 },
-  seoul: { safety: 87, affordability: 55, equality: 71, civicFreedom: 76, ecology: 59, crowding: 74 },
+  tokyo: { safety: 92, affordability: 35, equality: 76, civicFreedom: 85, ecology: 67, crowding: 86, growthMomentum: 45 },
+  seoul: { safety: 87, affordability: 55, equality: 71, civicFreedom: 76, ecology: 59, crowding: 74, growthMomentum: 60 },
+  suwon: { safety: 88, affordability: 76, equality: 73, civicFreedom: 77, ecology: 68, crowding: 52, growthMomentum: 74, toleranceOpenness: 64 },
   hiroshima: { safety: 89, affordability: 76, equality: 77, civicFreedom: 84, ecology: 79, crowding: 42 },
   vienna: { safety: 92, affordability: 46, equality: 82, civicFreedom: 86, ecology: 84, crowding: 49 },
   zurich: { safety: 95, affordability: 28, equality: 78, civicFreedom: 87, ecology: 88, crowding: 46 },
@@ -340,16 +348,16 @@ const cityScreenOverrides: Record<string, Partial<CityScreenProfile>> = {
   helsinki: { safety: 89, affordability: 43, equality: 82, civicFreedom: 87, ecology: 85, crowding: 36 },
   moscow: { safety: 74, affordability: 76, equality: 60, civicFreedom: 35, ecology: 58, crowding: 63 },
   budapest: { safety: 80, affordability: 79, equality: 65, civicFreedom: 70, ecology: 66, crowding: 55 },
-  krakow: { safety: 84, affordability: 78, equality: 67, civicFreedom: 77, ecology: 63, crowding: 53 },
+  krakow: { safety: 84, affordability: 78, equality: 67, civicFreedom: 77, ecology: 63, crowding: 53, growthMomentum: 76, toleranceOpenness: 68 },
   bucharest: { safety: 73, affordability: 76, equality: 58, civicFreedom: 68, ecology: 57, crowding: 56 },
   belgrade: { safety: 72, affordability: 78, equality: 60, civicFreedom: 64, ecology: 56, crowding: 58 },
   "nizhny-novgorod": { safety: 70, affordability: 78, equality: 59, civicFreedom: 34, ecology: 59, crowding: 47 },
   katowice: { safety: 81, affordability: 80, equality: 65, civicFreedom: 74, ecology: 55, crowding: 43 },
-  gdansk: { safety: 84, affordability: 75, equality: 66, civicFreedom: 78, ecology: 71, crowding: 43 },
+  gdansk: { safety: 84, affordability: 75, equality: 66, civicFreedom: 78, ecology: 71, crowding: 43, growthMomentum: 74, toleranceOpenness: 66 },
   torun: { safety: 83, affordability: 79, equality: 67, civicFreedom: 78, ecology: 72, crowding: 34 },
   bratislava: { safety: 85, affordability: 67, equality: 71, civicFreedom: 81, ecology: 69, crowding: 43 },
   chicago: { safety: 63, affordability: 49, equality: 50, civicFreedom: 78, ecology: 54, crowding: 63 },
-  pittsburgh: { safety: 76, affordability: 63, equality: 57, civicFreedom: 80, ecology: 62, crowding: 41 },
+  pittsburgh: { safety: 76, affordability: 63, equality: 57, civicFreedom: 80, ecology: 62, crowding: 41, growthMomentum: 72, toleranceOpenness: 75 },
   toronto: { safety: 78, affordability: 36, equality: 67, civicFreedom: 82, ecology: 66, crowding: 64 },
   montreal: { safety: 77, affordability: 54, equality: 68, civicFreedom: 82, ecology: 69, crowding: 52 },
   "mexico-city": { safety: 59, affordability: 68, equality: 47, civicFreedom: 71, ecology: 45, crowding: 81 },
@@ -368,15 +376,16 @@ const cityScreenOverrides: Record<string, Partial<CityScreenProfile>> = {
   montevideo: { safety: 74, affordability: 60, equality: 66, civicFreedom: 82, ecology: 72, crowding: 39 },
   cordoba: { safety: 68, affordability: 70, equality: 54, civicFreedom: 76, ecology: 60, crowding: 44 },
   valparaiso: { safety: 64, affordability: 65, equality: 56, civicFreedom: 75, ecology: 59, crowding: 55 },
-  dubai: { safety: 88, affordability: 35, equality: 30, civicFreedom: 35, ecology: 33, crowding: 64 },
-  "abu-dhabi": { safety: 89, affordability: 39, equality: 33, civicFreedom: 39, ecology: 35, crowding: 53 },
-  doha: { safety: 88, affordability: 30, equality: 28, civicFreedom: 35, ecology: 31, crowding: 49 },
-  riyadh: { safety: 80, affordability: 55, equality: 38, civicFreedom: 38, ecology: 28, crowding: 58 },
+  // ── Gulf: desert money, low tolerance, artificial growth ──
+  dubai: { safety: 88, affordability: 35, equality: 30, civicFreedom: 35, ecology: 33, crowding: 64, toleranceOpenness: 25, greenSpaceDeficit: 85 },
+  "abu-dhabi": { safety: 89, affordability: 39, equality: 33, civicFreedom: 39, ecology: 35, crowding: 53, toleranceOpenness: 22, greenSpaceDeficit: 82 },
+  doha: { safety: 88, affordability: 30, equality: 28, civicFreedom: 35, ecology: 31, crowding: 49, toleranceOpenness: 20, greenSpaceDeficit: 80 },
+  riyadh: { safety: 80, affordability: 55, equality: 38, civicFreedom: 38, ecology: 28, crowding: 58, toleranceOpenness: 15, greenSpaceDeficit: 88 },
   "tel-aviv": { safety: 80, affordability: 29, equality: 56, civicFreedom: 63, ecology: 58, crowding: 66 },
   muscat: { safety: 84, affordability: 62, equality: 50, civicFreedom: 56, ecology: 37, crowding: 39 },
-  manama: { safety: 82, affordability: 58, equality: 49, civicFreedom: 55, ecology: 34, crowding: 45 },
-  jeddah: { safety: 78, affordability: 60, equality: 45, civicFreedom: 45, ecology: 29, crowding: 54 },
-  "kuwait-city": { safety: 82, affordability: 43, equality: 34, civicFreedom: 42, ecology: 27, crowding: 50 },
+  manama: { safety: 82, affordability: 58, equality: 49, civicFreedom: 55, ecology: 34, crowding: 45, toleranceOpenness: 28, greenSpaceDeficit: 78 },
+  jeddah: { safety: 78, affordability: 60, equality: 45, civicFreedom: 45, ecology: 29, crowding: 54, toleranceOpenness: 15, greenSpaceDeficit: 90 },
+  "kuwait-city": { safety: 82, affordability: 43, equality: 34, civicFreedom: 42, ecology: 27, crowding: 50, toleranceOpenness: 18, greenSpaceDeficit: 85 },
   amman: { safety: 70, affordability: 61, equality: 50, civicFreedom: 61, ecology: 42, crowding: 55 },
   "cape-town": { safety: 49, affordability: 57, equality: 31, civicFreedom: 76, ecology: 61, crowding: 63 },
   johannesburg: { safety: 41, affordability: 59, equality: 29, civicFreedom: 74, ecology: 52, crowding: 59 },
@@ -388,15 +397,16 @@ const cityScreenOverrides: Record<string, Partial<CityScreenProfile>> = {
   windhoek: { safety: 69, affordability: 68, equality: 47, civicFreedom: 73, ecology: 63, crowding: 31 },
   accra: { safety: 62, affordability: 72, equality: 48, civicFreedom: 68, ecology: 48, crowding: 61 },
   dakar: { safety: 61, affordability: 70, equality: 49, civicFreedom: 67, ecology: 49, crowding: 57 },
-  auckland: { safety: 87, affordability: 43, equality: 72, civicFreedom: 87, ecology: 83, crowding: 51 },
-  sydney: { safety: 85, affordability: 26, equality: 68, civicFreedom: 86, ecology: 74, crowding: 63 },
-  melbourne: { safety: 84, affordability: 30, equality: 69, civicFreedom: 86, ecology: 72, crowding: 61 },
-  brisbane: { safety: 84, affordability: 48, equality: 68, civicFreedom: 86, ecology: 79, crowding: 42 },
-  wellington: { safety: 88, affordability: 46, equality: 76, civicFreedom: 88, ecology: 84, crowding: 37 },
-  perth: { safety: 86, affordability: 44, equality: 67, civicFreedom: 86, ecology: 79, crowding: 35 },
-  adelaide: { safety: 87, affordability: 52, equality: 69, civicFreedom: 86, ecology: 78, crowding: 34 },
-  hobart: { safety: 89, affordability: 47, equality: 71, civicFreedom: 87, ecology: 86, crowding: 27 },
-  christchurch: { safety: 88, affordability: 50, equality: 71, civicFreedom: 87, ecology: 82, crowding: 31 },
+  // ── Oceania: pleasant but low growth, retirement economy, unaffordable ──
+  auckland: { safety: 87, affordability: 43, equality: 72, civicFreedom: 87, ecology: 83, crowding: 51, growthMomentum: 35, boringIndex: 65 },
+  sydney: { safety: 85, affordability: 26, equality: 68, civicFreedom: 86, ecology: 74, crowding: 63, growthMomentum: 42, boringIndex: 45, housingPriceIndex: 94 },
+  melbourne: { safety: 84, affordability: 30, equality: 69, civicFreedom: 86, ecology: 72, crowding: 61, growthMomentum: 40, boringIndex: 48 },
+  brisbane: { safety: 84, affordability: 48, equality: 68, civicFreedom: 86, ecology: 79, crowding: 42, growthMomentum: 38, boringIndex: 72 },
+  wellington: { safety: 88, affordability: 46, equality: 76, civicFreedom: 88, ecology: 84, crowding: 37, growthMomentum: 30, boringIndex: 74 },
+  perth: { safety: 86, affordability: 44, equality: 67, civicFreedom: 86, ecology: 79, crowding: 35, growthMomentum: 34, boringIndex: 78 },
+  adelaide: { safety: 87, affordability: 52, equality: 69, civicFreedom: 86, ecology: 78, crowding: 34, growthMomentum: 32, boringIndex: 80 },
+  hobart: { safety: 89, affordability: 47, equality: 71, civicFreedom: 87, ecology: 86, crowding: 27, growthMomentum: 25, boringIndex: 88 },
+  christchurch: { safety: 88, affordability: 50, equality: 71, civicFreedom: 87, ecology: 82, crowding: 31, growthMomentum: 28, boringIndex: 76 },
   suva: { safety: 67, affordability: 64, equality: 57, civicFreedom: 74, ecology: 69, crowding: 42 },
   bengaluru: { safety: 55, affordability: 64, equality: 49, civicFreedom: 72, ecology: 41, crowding: 83 },
   hyderabad: { safety: 58, affordability: 67, equality: 50, civicFreedom: 72, ecology: 44, crowding: 77 },
@@ -1365,6 +1375,22 @@ function screeningPenalty(profile: CityScreenProfile, roomToLiveStrength: number
   if ((profile.religiousViolence ?? 10) > 40) penalty -= 20;
   if ((profile.housingPriceIndex ?? 50) > 90) penalty -= 12;
 
+  // Growth stagnation: retirement homes, aging economies, no domestic consumption
+  const growth = profile.growthMomentum ?? 55;
+  if (growth < 30) penalty -= 14;
+  else if (growth < 42) penalty -= 8;
+  else if (growth < 52) penalty -= 4;
+  else if (growth > 75) penalty += 3;
+
+  // Tolerance: anti-LGBTQ, ethnic discrimination, religious intolerance
+  const tolerance = profile.toleranceOpenness ?? 65;
+  if (tolerance < 30) penalty -= 14;
+  else if (tolerance < 45) penalty -= 8;
+  else if (tolerance < 55) penalty -= 4;
+
+  // Green space deficit: concrete deserts, no parks
+  if ((profile.greenSpaceDeficit ?? 40) > 75) penalty -= 6;
+
   return penalty;
 }
 
@@ -1374,7 +1400,10 @@ function screeningTag(profile: CityScreenProfile, roomToLiveStrength: number): s
   if ((profile.climate ?? 70) < 40) return "too cold";
   if ((profile.housingPriceIndex ?? 50) > 95) return "unsustainable housing";
   if ((profile.healthcareCost ?? 50) > 85) return "expensive healthcare";
+  if ((profile.growthMomentum ?? 55) < 30) return "stagnant economy";
   if ((profile.boringIndex ?? 50) > 85) return "retirement home";
+  if ((profile.boringIndex ?? 50) > 70) return "low dynamism";
+  if ((profile.toleranceOpenness ?? 65) < 35) return "intolerant atmosphere";
   if ((profile.flatExperience ?? 50) > 85) return "flat experience";
   if ((profile.taxReturn ?? 70) < 50) return "poor tax return";
 

@@ -3,9 +3,8 @@ import ZeroSumAllocator from "./ZeroSumAllocator";
 import type { PillarAllocation } from "./ZeroSumAllocator";
 import { evaluateConsequences } from "./consequenceRules";
 import type { FiredConsequence } from "./consequenceRules";
-import publishedData from "./data/publishedRankingData.json";
 import { buildLandingData } from "./landingData";
-import { rankingRegions } from "./rankingsData";
+import { getExerciseCities, rankingRegions } from "./rankingsData";
 import { getVisitorStats } from "./visitorTracking";
 // RankingIntegrityBanner used on rankings page; home uses inline status line
 import { getMethodologyData } from "./methodologyData";
@@ -40,34 +39,39 @@ const PILLAR_ORDER: PillarId[] = ["pressure", "viability", "capability", "commun
 
 const EQUAL_WEIGHT = 20;
 
-/* ───── published data ───── */
+/* ───── live ranking data (from rankingsData.ts scoring model) ───── */
 
-interface PublishedCity {
+interface HomeCity {
   cityId: string;
   displayName: string;
   country: string;
   region: string;
-  cityType: string;
-  coverageGrade: string;
-  manifestStatus: string;
   pressureScore: number;
   viabilityScore: number;
   capabilityScore: number;
   communityScore: number;
   creativeScore: number;
-  slicScore: number;
-  rank: number;
-  rankingStatus: string;
 }
 
-const allCities = (publishedData.cities ?? []) as PublishedCity[];
-const rankedCities = allCities.filter((c) => c.rankingStatus === "Ranked");
+const rankedCities: HomeCity[] = getExerciseCities()
+  .filter((c) => c.coreBoardEligible)
+  .map((c) => ({
+    cityId: c.id,
+    displayName: c.name,
+    country: c.country,
+    region: c.region,
+    pressureScore: c.scores.pressure,
+    viabilityScore: c.scores.viability,
+    capabilityScore: c.scores.capability,
+    communityScore: c.scores.community,
+    creativeScore: c.scores.creative,
+  }));
 
-function scoreCityWithWeights(city: PublishedCity, weights: Record<PillarId, number>): number {
+function scoreCityWithWeights(city: HomeCity, weights: Record<PillarId, number>): number {
   const total = PILLAR_ORDER.reduce((s, p) => s + weights[p], 0);
   if (total === 0) return 0;
   return PILLAR_ORDER.reduce((s, p) => {
-    const pillarScore = city[`${p}Score` as keyof PublishedCity] as number;
+    const pillarScore = city[`${p}Score` as keyof HomeCity] as number;
     return s + (pillarScore * weights[p]) / total;
   }, 0);
 }
