@@ -1,0 +1,106 @@
+"""
+Shared country-to-ISO3 mapping for all SLIC ingest scripts.
+
+Covers every country in slic_city_universe.csv so new ingest scripts
+don't need to maintain their own copy.
+"""
+from __future__ import annotations
+
+COUNTRY_TO_ISO3: dict[str, str] = {
+    # Southeast Asia
+    "Thailand": "THA",
+    "Singapore": "SGP",
+    "Malaysia": "MYS",
+    "Indonesia": "IDN",
+    "Philippines": "PHL",
+    "Vietnam": "VNM",
+    "Cambodia": "KHM",
+    # East Asia
+    "Taiwan": "TWN",
+    "South Korea": "KOR",
+    "China": "CHN",
+    "Japan": "JPN",
+    # South Asia
+    "India": "IND",
+    "Sri Lanka": "LKA",
+    "Bangladesh": "BGD",
+    "Pakistan": "PAK",
+    "Nepal": "NPL",
+    "Bhutan": "BTN",
+    "Maldives": "MDV",
+    # Western, Northern, and Southern Europe
+    "France": "FRA",
+    "Austria": "AUT",
+    "Switzerland": "CHE",
+    "Italy": "ITA",
+    "Netherlands": "NLD",
+    "Denmark": "DNK",
+    "Portugal": "PRT",
+    "Estonia": "EST",
+    "Finland": "FIN",
+    "Spain": "ESP",
+    "Germany": "DEU",
+    "Belgium": "BEL",
+    "Ireland": "IRL",
+    "Sweden": "SWE",
+    "Norway": "NOR",
+    # Southern/Eastern Europe and Eurasia
+    "Russia": "RUS",
+    "Hungary": "HUN",
+    "Poland": "POL",
+    "Romania": "ROU",
+    "Serbia": "SRB",
+    "Slovakia": "SVK",
+    "Czechia": "CZE",
+    "Slovenia": "SVN",
+    "Croatia": "HRV",
+    "Lithuania": "LTU",
+    "Latvia": "LVA",
+    "Georgia": "GEO",
+    # North America
+    "United States": "USA",
+    "Mexico": "MEX",
+    "Canada": "CAN",
+    "Panama": "PAN",
+    "Costa Rica": "CRI",
+    "Puerto Rico": "PRI",
+    "Dominican Republic": "DOM",
+    # Latin America
+    "Brazil": "BRA",
+    "Argentina": "ARG",
+    "Chile": "CHL",
+    "Colombia": "COL",
+    "Peru": "PER",
+    "Uruguay": "URY",
+    "Ecuador": "ECU",
+    "Paraguay": "PRY",
+    # Middle East
+    "United Arab Emirates": "ARE",
+    "Qatar": "QAT",
+    "Saudi Arabia": "SAU",
+    "Israel": "ISR",
+    "Oman": "OMN",
+    "Bahrain": "BHR",
+    "Kuwait": "KWT",
+    "Jordan": "JOR",
+    # Africa
+    "South Africa": "ZAF",
+    "Kenya": "KEN",
+    "Rwanda": "RWA",
+    "Morocco": "MAR",
+    "Mauritius": "MUS",
+    "Botswana": "BWA",
+    "Namibia": "NAM",
+    "Ghana": "GHA",
+    "Senegal": "SEN",
+    "Egypt": "EGY",
+    "Tanzania": "TZA",
+    "Uganda": "UGA",
+    # Oceania
+    "New Zealand": "NZL",
+    "Australia": "AUS",
+    "Fiji": "FJI",
+    "Papua New Guinea": "PNG",
+    "Samoa": "WSM",
+    "Vanuatu": "VUT",
+}

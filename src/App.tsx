@@ -11,6 +11,7 @@ const MethodologyPage = lazy(() => import("./MethodologyPage"));
 const RankingsPage = lazy(() => import("./RankingsPage"));
 const SlicProfilePage = lazy(() => import("./SlicProfilePage"));
 const ThailandPage = lazy(() => import("./ThailandPage"));
+const HistoryPage = lazy(() => import("./HistoryPage"));
 
 type DocumentWithViewTransition = Document & {
   startViewTransition?: Document["startViewTransition"];
@@ -39,6 +40,10 @@ function resolvePath(pathname: string): SitePath {
 
   if (pathname === "/ideas") {
     return "/ideas";
+  }
+
+  if (pathname === "/history") {
+    return "/history";
   }
 
   return "/";
@@ -148,6 +153,12 @@ export default function App() {
                   : locale === "zh"
                     ? "偷师这个创意"
                     : "Steal This Idea"
+              : route === "/history"
+                ? locale === "th"
+                  ? "เบื้องหลัง SLIC"
+                  : locale === "zh"
+                    ? "SLIC 发展历程"
+                    : "How SLIC Was Built"
                 : locale === "th"
                   ? "สร้างอันดับเมืองของคุณ"
                   : locale === "zh"
@@ -197,6 +208,8 @@ export default function App() {
             <ThailandPage onNavigate={navigate} locale={locale} />
           ) : route === "/ideas" ? (
             <IdeasPage onNavigate={navigate} locale={locale} onLocaleChange={setLocale} />
+          ) : route === "/history" ? (
+            <HistoryPage onNavigate={navigate} locale={locale} />
           ) : (
             <HomePage onNavigate={navigate} locale={locale} />
           )}

@@ -26,4 +26,9 @@ arpae_emilia_romagna,ARPAE Emilia-Romagna,Tier 2,subnational,arpae.it,false,fals
 gruppo_hera,Gruppo Hera,Tier 2,utility_operator,gruppohera.it,false,false,"Primary regional utility operator for Bologna-area water, waste, and utility service data."
 thai_gov_pcd_rsc,Thai Government PCD / RSC / MWA,Tier 2,subnational,,true,false,"Composite Thai subnational provider covering Pollution Control Department (PCD) air quality, Road Safety Centre (RSC) fatality statistics, and Metropolitan/Provincial Waterworks Authority (MWA/PWA) water coverage data."
 wmo_natl_met,WMO and National Meteorological Services,Tier 3,national_international,worldweather.wmo.int,true,false,"World Meteorological Organization and national met services. Climate normals, sunshine hours, temperature records."
-slic_analyst,SLIC Index Analyst Assessment,Tier 5,analyst_assessment,,true,false,"Manual analyst assessment based on lived experience, cross-reference research, and domain expertise."
+teleport_cities,Teleport Cities API,Tier 4,secondary,teleport.org,false,false,"Aggregated city-level cost-of-living, commute, and internet data from Teleport. Use as fallback when higher-tier official sources are unavailable."
+oecd_better_life,OECD Better Life Index,Tier 3,international,oecd.org,false,false,"OECD Better Life Index for housing expenditure, disposable income, and working hours. Country-level proxy applied to all cities in each OECD member."
+slic_analyst,SLIC Index Analyst Assessment,Tier 5,analyst_assessment,,true,true,Internal analyst reference only. Do not use this provider in publishable scoring rows.
+derived,Derived Computation,Tier 4,secondary,,true,false,Computed from other available fields in city_inputs.csv and country_context.csv.
+world_bank_col_estimate,World Bank GNI + Regional Expenditure Estimate,Tier 4,international,worldbank.org,false,false,Cost-of-living estimates derived from World Bank GNI per capita PPP and regional household expenditure survey ratios.
+taiwan_dgbas,"Directorate General of Budget, Accounting and Statistics (Taiwan)",Tier 3,national,eng.dgbas.gov.tw,false,false,Official Taiwan national statistical office for income

@@ -13,7 +13,7 @@
     "chars": 107064,
     "chunk_count": 37,
     "modified_at": "2025-11-03T05:20:18+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "blog-posts-clean",
@@ -29,7 +29,7 @@
     "chars": 1310391,
     "chunk_count": 1250,
     "modified_at": "2026-02-02T07:22:32.249423+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "nst-baseline-report-0",
@@ -45,7 +45,7 @@
     "chars": 170328,
     "chunk_count": 65,
     "modified_at": "2023-10-15T06:36:26+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "nst-report",
@@ -61,7 +61,7 @@
     "chars": 62156,
     "chunk_count": 47,
     "modified_at": "2023-08-23T05:29:05+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "nakhon-innovative-flood-control-updated-1",
@@ -77,7 +77,7 @@
     "chars": 1373,
     "chunk_count": 1,
     "modified_at": "2024-02-16T11:46:02+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "nakhon-nomination-depa",
@@ -93,7 +93,7 @@
     "chars": 3089,
     "chunk_count": 2,
     "modified_at": "2023-10-16T10:38:27+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "non-2021-smart-city-thailand-hitachi-review",
@@ -109,7 +109,7 @@
     "chars": 18815,
     "chunk_count": 5,
     "modified_at": "2023-03-04T03:46:00+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "scw2020-thaiver-final",
@@ -125,7 +125,7 @@
     "chars": 132179,
     "chunk_count": 91,
     "modified_at": "2021-09-05T13:23:12+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "smart-city-week-2020-booklet",
@@ -141,7 +141,7 @@
     "chars": 128606,
     "chunk_count": 96,
     "modified_at": "2022-03-27T17:10:37+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "strategic-smart-living-expansion-roadmap",
@@ -157,7 +157,7 @@
     "chars": 4670,
     "chunk_count": 4,
     "modified_at": "2024-03-28T01:29:16+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "uk-thailand-smart-city-handbook",
@@ -173,7 +173,7 @@
     "chars": 405017,
     "chunk_count": 157,
     "modified_at": "2024-01-17T03:23:50+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "us-depa-smart-city-primer",
@@ -189,7 +189,7 @@
     "chars": 88475,
     "chunk_count": 42,
     "modified_at": "2025-11-29T05:19:51+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "asean-smart-city-planning-guidebook-2022",
@@ -205,7 +205,7 @@
     "chars": 178347,
     "chunk_count": 123,
     "modified_at": "2026-03-04T18:15:43.000968+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "nakhon-si-thammarat-march31-2023",
@@ -221,7 +221,7 @@
     "chars": 2624,
     "chunk_count": 2,
     "modified_at": "2023-08-02T08:34:18+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   },
   {
     "doc_id": "theaseanmagazine-asean-org-non-arkaraprasertkul-phd-the-asean-magazine",
@@ -237,6 +237,6 @@
     "chars": 12424,
     "chunk_count": 5,
     "modified_at": "2024-12-25T05:42:21+00:00",
-    "extracted_at": "2026-03-14T07:30:25.733418+00:00"
+    "extracted_at": "2026-03-30T08:24:04.521836+00:00"
   }
 ]

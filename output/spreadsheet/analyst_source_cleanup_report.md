@@ -1,0 +1,70 @@
+# Analyst Row Cleanup Report
+
+- Provider cleared: `slic_analyst`
+- Rows cleared: `131`
+- Cities affected: `37`
+
+## By City
+- `th-bangkok`: 23
+- `kr-busan`: 6
+- `us-chicago`: 6
+- `us-pittsburgh`: 6
+- `us-minneapolis`: 6
+- `us-raleigh`: 6
+- `au-sydney`: 5
+- `au-melbourne`: 5
+- `au-brisbane`: 5
+- `au-perth`: 5
+- `au-adelaide`: 5
+- `au-hobart`: 5
+- `tw-kaohsiung`: 5
+- `sg-singapore`: 4
+- `nz-auckland`: 3
+- `nz-wellington`: 3
+- `nz-christchurch`: 3
+- `nz-dunedin`: 3
+- `tw-taipei`: 2
+- `it-milan`: 2
+- `ca-toronto`: 2
+- `ca-montreal`: 2
+- `il-tel-aviv`: 2
+- `ca-vancouver`: 2
+- `ca-ottawa`: 2
+- `il-haifa`: 2
+- `th-phuket`: 1
+- `th-chiang-mai`: 1
+- `th-hat-yai`: 1
+- `ae-dubai`: 1
+- `ae-abu-dhabi`: 1
+- `qa-doha`: 1
+- `sa-riyadh`: 1
+- `om-muscat`: 1
+- `bh-manama`: 1
+- `kw-kuwait-city`: 1
+- `om-salalah`: 1
+
+## By Field
+- `household_debt_burden_raw`: 22
+- `equal_opportunity_raw`: 20
+- `investment_signal_raw`: 16
+- `housing_burden_raw`: 13
+- `entrepreneurial_dynamism_raw`: 13
+- `healthcare_quality_raw`: 10
+- `tolerance_pluralism_raw`: 9
+- `personal_safety_raw`: 9
+- `hospitality_belonging_raw`: 4
+- `gross_income`: 1
+- `rent`: 1
+- `utilities`: 1
+- `transit_cost`: 1
+- `internet_cost`: 1
+- `food_cost`: 1
+- `working_time_pressure_raw`: 1
+- `transit_access_commute_raw`: 1
+- `digital_infrastructure_raw`: 1
+- `climate_sunlight_livability_raw`: 1
+- `education_quality_raw`: 1
+- `cultural_public_life_raw`: 1
+- `innovation_research_intensity_raw`: 1
+- `administrative_investment_friction_raw`: 1
+- `visitor_flow_context_raw`: 1

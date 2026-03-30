@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timezone
 
 from audit_ranking_math import ROOT, extract_workbook_weights, run_validator
+from generate_slic_workbook import main as build_workbook
 from verified_source_pipeline import (
     apply_source_pack_to_workbook,
     compute_ranked_rows,
@@ -13,9 +14,11 @@ from verified_source_pipeline import (
 )
 
 OUTPUT_PATH = ROOT / "src" / "data" / "publishedRankingData.json"
+PUBLIC_BOARD_SIZE = 100
 
 
 def write_export() -> int:
+    build_workbook()
     prepare_verified_source_pack(force=False)
 
     validator_ok, validator_output = run_validator()
@@ -38,10 +41,17 @@ def write_export() -> int:
             "Verified source pack does not currently produce any ranked city rows: "
             f"{source_pack_completion_summary(validation)}"
         )
+    elif len(rows) < PUBLIC_BOARD_SIZE:
+        issues.append(
+            f"Verified source pack produces only {len(rows)} ranked cities. "
+            f"At least {PUBLIC_BOARD_SIZE} ranked cities are required before the public board is publishable."
+        )
+
+    publishable = validator_ok and not validation.issues and len(rows) >= PUBLIC_BOARD_SIZE
 
     payload = {
-        "publishable": validator_ok and not validation.issues and bool(rows),
-        "status": "published" if validator_ok and not validation.issues and rows else "reranking",
+        "publishable": publishable,
+        "status": "published" if publishable else "reranking",
         "updatedAt": datetime.now(timezone.utc).isoformat(),
         "canonicalWeights": weights,
         "issues": issues,

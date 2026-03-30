@@ -72,6 +72,25 @@ interface PublishedCity {
   slicScore: number;
   rank: number;
   rankingStatus: string;
+  overallWeightedCoverage?: number;
+  pressureCoverage?: number;
+  viabilityCoverage?: number;
+  capabilityCoverage?: number;
+  communityCoverage?: number;
+  creativeCoverage?: number;
+}
+
+const GRADE_COLORS: Record<string, string> = {
+  A: "#22c55e",
+  B: "#f59e0b",
+  C: "#f97316",
+};
+
+function coverageOpacity(coverage: number | undefined): number {
+  if (coverage === undefined) return 1;
+  if (coverage >= 75) return 1;
+  if (coverage >= 50) return 0.7;
+  return 0.4;
 }
 
 const CANONICAL = publishedData.canonicalWeights as Record<PillarId, number>;
@@ -397,6 +416,16 @@ export default function RankingsPage({
                 </div>
               </div>
 
+              {/* Coverage legend */}
+              <div className="coverage-legend">
+                {locale === "en" ? "Data coverage: " : locale === "th" ? "ครอบคลุมข้อมูล: " : "数据覆盖: "}
+                <span style={{ color: GRADE_COLORS.A }}>A</span> 75%+
+                {" · "}
+                <span style={{ color: GRADE_COLORS.B }}>B</span> 50–74%
+                {" · "}
+                <span style={{ color: GRADE_COLORS.C }}>C</span> 35–49%
+              </div>
+
               {/* City list */}
               <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 {displayResults.map((city, index) => {
@@ -426,17 +455,26 @@ export default function RankingsPage({
                         <div style={{ display: "flex", alignItems: "baseline", gap: 6, flexWrap: "wrap" }}>
                           <span style={{ fontWeight: 600, fontSize: 14 }}>{city.displayName}</span>
                           <span style={{ fontSize: 12, opacity: 0.4 }}>{city.country}</span>
+                          {city.coverageGrade && (
+                            <span className="coverage-badge" style={{ background: GRADE_COLORS[city.coverageGrade] || "#6b7280" }}>
+                              {city.coverageGrade}
+                            </span>
+                          )}
                           {isCustom && (
                             <span style={{ fontSize: 10, opacity: 0.3 }}>{ui.slicRank}{city.rank}</span>
                           )}
                         </div>
-                        {/* Mini pillar bars */}
+                        {/* Mini pillar bars — opacity reflects data coverage */}
                         <div className="rankings-pillar-bars">
-                          {PILLAR_ORDER.map((pid) => (
-                            <div key={pid}>
-                              <div style={{ width: `${pillarScores[pid]}%`, background: PILLAR_COLORS[pid] }} />
-                            </div>
-                          ))}
+                          {PILLAR_ORDER.map((pid) => {
+                            const covKey = `${pid}Coverage` as keyof PublishedCity;
+                            const cov = city[covKey] as number | undefined;
+                            return (
+                              <div key={pid}>
+                                <div style={{ width: `${pillarScores[pid]}%`, background: PILLAR_COLORS[pid], opacity: coverageOpacity(cov) }} />
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
 
