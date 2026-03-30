@@ -158,6 +158,12 @@ export default function SiteFooter({
           <a href="/ideas" onClick={(event) => navigateLink(event, onNavigate, "/ideas")}>
             {copy.nav.ideas}
           </a>
+          <a href="/history" onClick={(event) => navigateLink(event, onNavigate, "/history")}>
+            {copy.nav.history}
+          </a>
+          <a href="https://slic-index.onrender.com" target="_blank" rel="noopener noreferrer">
+            {copy.nav.timeMachine}
+          </a>
         </nav>
         <p className="site-footer-note">{copy.footer.note}</p>
       </div>

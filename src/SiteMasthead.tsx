@@ -1,8 +1,11 @@
 import { useEffect, useId, useState } from "react";
 import LocaleSwitch from "./LocaleSwitch";
 import { slicLogo } from "./brandAssets";
+import publishedData from "./data/publishedRankingData.json";
 import { getCopy } from "./siteCopy";
 import type { Locale, SitePath } from "./types";
+
+const cityCount = (publishedData.cities ?? []).length || 157;
 
 const mastheadCopy: Record<
   Locale,
@@ -20,7 +23,7 @@ const mastheadCopy: Record<
   }
 > = {
   en: {
-    brandTitle: "SLIC Index 2026 V2",
+    brandTitle: "SLIC Index 2026",
     brandSubtitle: "Smart and Liveable Cities Index",
     goHome: "Go to home",
     primaryNavigation: "Primary navigation",
@@ -32,7 +35,7 @@ const mastheadCopy: Record<
     closeNavigation: "Close navigation",
   },
   th: {
-    brandTitle: "SLIC Index 2026 V2",
+    brandTitle: "SLIC Index 2026",
     brandSubtitle: "ดัชนีเมืองฉลาดและน่าอยู่",
     goHome: "กลับสู่หน้าแรก",
     primaryNavigation: "เมนูหลัก",
@@ -44,7 +47,7 @@ const mastheadCopy: Record<
     closeNavigation: "ปิดเมนูนำทาง",
   },
   zh: {
-    brandTitle: "SLIC Index 2026 V2",
+    brandTitle: "SLIC Index 2026",
     brandSubtitle: "智慧与宜居城市指数",
     goHome: "返回首页",
     primaryNavigation: "主导航",
@@ -61,9 +64,11 @@ const navPaths: SitePath[] = [
   "/",
   "/about-slic",
   "/rankings",
+  "/exercise",
   "/methodology",
   "/thailand",
   "/ideas",
+  "/history",
 ];
 
 function navLabel(path: SitePath, locale: Locale): string {
@@ -91,6 +96,10 @@ function navLabel(path: SitePath, locale: Locale): string {
 
   if (path === "/ideas") {
     return copy.nav.ideas;
+  }
+
+  if (path === "/history") {
+    return copy.nav.history;
   }
 
   return copy.nav.thailand;
@@ -173,6 +182,15 @@ export default function SiteMasthead({
                   {navLabel(path, locale)}
                 </button>
               ))}
+              <a
+                href="https://slic-index.onrender.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="masthead-nav-link time-machine-link"
+              >
+                <span className="time-machine-icon" aria-hidden="true">⏱️</span>
+                {copy.nav.timeMachine}
+              </a>
             </nav>
 
             <div className="masthead-status-rail">
@@ -186,7 +204,7 @@ export default function SiteMasthead({
 
               <div className="masthead-meta-rail" aria-label={ui.liveScope}>
                 <article>
-                  <strong>103</strong>
+                  <strong>{cityCount}</strong>
                   <span>{ui.cities}</span>
                 </article>
                 <article>

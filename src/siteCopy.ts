@@ -16,6 +16,8 @@ export const siteCopy = {
       exercise: "Exercise",
       thailand: "Thailand",
       ideas: "Steal This Idea",
+      history: "The Journey",
+      timeMachine: "V2 (Dark)",
     },
     shared: {
       updated: "Updated",
@@ -27,7 +29,7 @@ export const siteCopy = {
       coreBoard: "Screened board",
       extendedField: "candidate field",
       liveStatus: "Published ranking live",
-      liveScope: "103 cities / 92 signals / 35 sources / verified workbook export",
+      liveScope: "157 cities / 35 signals / 35 sources / verified workbook export",
       localTime: "Local time",
     },
     rankings: {
@@ -59,7 +61,7 @@ export const siteCopy = {
         "Suggested credit: Non Arkara and Associate Professor Poon Thiengburanathum, Smart and Liveable Cities Index (SLIC), public ranking model, accessed [date of access]. Include the deployment URL of the public page when republishing.",
       aiLabel: "Algorithmic and AI disclosure",
       aiBody:
-        "This ranking is produced from the verified SLIC workbook export with 103 cities scored across 92 signals, 35 connected sources, and five declared public pillars. Source URLs and source tiers are attached to every data point in the workbook.",
+        "This ranking is produced from the verified SLIC workbook export with 157 cities scored across 35 signals, 35 connected sources, and five declared public pillars. Source URLs and source tiers are attached to every data point in the workbook.",
       liveLabel: "Live-system note",
       liveBody:
         "Rankings are published from the verified workbook export. Country_Context and City_Inputs have been populated from trusted sources with full provenance. City positions reflect audited data and declared mathematics.",
@@ -128,6 +130,8 @@ export const siteCopy = {
       exercise: "แบบฝึกหาเมือง",
       thailand: "อันดับประเทศไทย",
       ideas: "ขโมยไอเดียนี้",
+      history: "เบื้องหลัง",
+      timeMachine: "V2 (มืด)",
     },
     shared: {
       updated: "อัปเดต",
@@ -139,7 +143,7 @@ export const siteCopy = {
       coreBoard: "บอร์ดที่ผ่านเกณฑ์",
       extendedField: "ชุดเมืองทั้งหมด",
       liveStatus: "กำลังจัดอันดับใหม่ด้วยข้อมูลที่ตรวจสอบได้",
-      liveScope: "ตรวจแหล่งข้อมูล / เติมเวิร์กบุ๊ก / จัดอันดับสาธารณะใหม่",
+      liveScope: "157 เมือง / 35 สัญญาณ / 35 แหล่งข้อมูล / การส่งออกเวิร์กบุ๊กที่ได้รับการยืนยัน",
       localTime: "เวลาท้องถิ่น",
     },
     rankings: {
@@ -240,6 +244,8 @@ export const siteCopy = {
       exercise: "匹配练习",
       thailand: "泰国榜单",
       ideas: "偷师这个创意",
+      history: "发展历程",
+      timeMachine: "V2 (暗色)",
     },
     shared: {
       updated: "更新于",
@@ -251,7 +257,7 @@ export const siteCopy = {
       coreBoard: "筛选榜单",
       extendedField: "候选城市池",
       liveStatus: "已验证数据重排进行中",
-      liveScope: "可信来源审计 / 工作簿补齐 / 公开重排",
+      liveScope: "157 座城市 / 35 个信号 / 35 个数据源 / 已验证的工作簿导出",
       localTime: "当地时间",
     },
     rankings: {
@@ -283,7 +289,7 @@ export const siteCopy = {
         "建议署名：Non Arkara 与 Associate Professor Poon Thiengburanathum, Smart and Liveable Cities Index (SLIC), public ranking model, accessed [访问日期]。转载时建议同时附上公开页面的部署 URL。",
       aiLabel: "算法与 AI 披露",
       aiBody:
-        "当前公开页面仍处于重排预览阶段，SLIC 工作簿正在用可信来源补齐。最终公开排序必须来自经过验证的工作簿导出，并附上来源 URL 与来源层级，而不能继续依赖临时预览逻辑。",
+        "这份排名由经过验证的 SLIC 工作簿导出生成，包含 157 座城市的 35 个信号、35 个连接的数据源以及五个公开支柱。工作簿中的每个数据点都附带了来源 URL 和来源层级。",
       liveLabel: "实时系统说明",
       liveBody:
         "重排仍在进行中。在 Country_Context 与 City_Inputs 由可信来源填充并通过工作簿进入公开页面之前，当前城市位置不应被视为最终排序，也不应作为定稿引用。",

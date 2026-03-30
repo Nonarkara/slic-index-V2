@@ -6,6 +6,7 @@ import type { FiredConsequence } from "./consequenceRules";
 import publishedData from "./data/publishedRankingData.json";
 import { buildLandingData } from "./landingData";
 import { rankingRegions } from "./rankingsData";
+import { getVisitorStats } from "./visitorTracking";
 // RankingIntegrityBanner used on rankings page; home uses inline status line
 import { getMethodologyData } from "./methodologyData";
 import PillarWeightChart from "./PillarWeightChart";
@@ -96,7 +97,7 @@ const heroCopy: Record<Locale, {
   en: {
     eyebrow: "SLIC Index 2026",
     title: "We built an index.\nYou build the ranking.",
-    strapline: "103 cities. Five dimensions. One tool. Drag the spider — shift your priorities — watch cities re-rank in real time.",
+    strapline: "157 cities. Five dimensions. One tool. Drag the spider — shift your priorities — watch cities re-rank in real time.",
     allocatorHint: "Drag the web or use sliders. Total = 100.",
     resetLabel: "Reset",
     equalBadge: "Equal weights",
@@ -116,7 +117,7 @@ const heroCopy: Record<Locale, {
   th: {
     eyebrow: "SLIC Index 2026",
     title: "เราสร้างดัชนี\nคุณสร้างอันดับ",
-    strapline: "103 เมือง 5 มิติ เครื่องมือเดียว ลากใยแมงมุม — ปรับลำดับ — ดูเมืองจัดอันดับใหม่แบบเรียลไทม์",
+    strapline: "157 เมือง 5 มิติ เครื่องมือเดียว ลากใยแมงมุม — ปรับลำดับ — ดูเมืองจัดอันดับใหม่แบบเรียลไทม์",
     allocatorHint: "ลากใยแมงมุมหรือใช้แถบเลื่อน ผลรวม = 100",
     resetLabel: "รีเซ็ต",
     equalBadge: "น้ำหนักเท่ากัน",
@@ -136,7 +137,7 @@ const heroCopy: Record<Locale, {
   zh: {
     eyebrow: "SLIC Index 2026",
     title: "我们建立指数\n你来构建排名",
-    strapline: "103 座城市，五个维度，一个工具。拖动蛛网 — 调整优先级 — 看城市实时重新排名。",
+    strapline: "157 座城市，五个维度，一个工具。拖动蛛网 — 调整优先级 — 看城市实时重新排名。",
     allocatorHint: "拖动蛛网图或使用滑块，总分 = 100",
     resetLabel: "重置",
     equalBadge: "等权重",
@@ -155,12 +156,12 @@ const heroCopy: Record<Locale, {
   },
 };
 
-/* ───── severity styles ───── */
+/* ───── severity → CSS class map ───── */
 
-const severityStyles: Record<string, React.CSSProperties> = {
-  severe: { borderLeft: "3px solid #ef4444", background: "rgba(239,68,68,0.06)", padding: "6px 10px", fontSize: 11 },
-  moderate: { borderLeft: "3px solid #f59e0b", background: "rgba(245,158,11,0.04)", padding: "6px 10px", fontSize: 11 },
-  mild: { borderLeft: "3px solid #3b82f6", background: "rgba(59,130,246,0.04)", padding: "6px 10px", fontSize: 11 },
+const severityClass: Record<string, string> = {
+  severe: "tradeoff-card tradeoff-card--severe",
+  moderate: "tradeoff-card tradeoff-card--moderate",
+  mild: "tradeoff-card tradeoff-card--mild",
 };
 
 /* ───── editorial copy ───── */
@@ -348,17 +349,14 @@ export default function HomePage({
   const ui = heroCopy[locale];
   const labels = PILLAR_LABELS[locale];
 
-  /* ── visitor counter + geography (fetched from Google Sheets via Apps Script) ── */
+  /* ── visitor counter + geography (Supabase primary, Google Sheets fallback) ── */
   const [visitors, setVisitors] = useState(12424);
   const [visitorCountries, setVisitorCountries] = useState<Array<{ country: string; pct: number }>>([]);
   useEffect(() => {
-    fetch("https://script.google.com/macros/s/AKfycbxq3-DKKX4IuNDQF1SnxCujF1NjBqDlDlSADhc4PdOvpRbi5llSMZHmspkNUc7MVHV99w/exec?action=count", { mode: "cors" })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.count) setVisitors(d.count);
-        if (d.countries) setVisitorCountries(d.countries);
-      })
-      .catch(() => {});
+    getVisitorStats().then((stats) => {
+      setVisitors(stats.count);
+      setVisitorCountries(stats.countries);
+    });
   }, []);
 
   const [pillars, setPillars] = useState<PillarAllocation[]>(
@@ -417,7 +415,13 @@ export default function HomePage({
   return (
     <>
       {/* ═══════ HERO: Title left + Spider right — visible on load ═══════ */}
-      <header className="hero section" style={{ paddingBottom: 8 }}>
+      <div className="page-shell">
+        <div className="float-orb" style={{ width: '600px', height: '600px', background: 'rgba(34, 211, 238, 0.15)', top: '-10%', left: '-5%' }} />
+        <div className="float-orb" style={{ width: '500px', height: '500px', background: 'rgba(245, 158, 11, 0.1)', top: '40%', right: '-10%', animationDelay: '-5s' }} />
+        <div className="float-orb" style={{ width: '700px', height: '700px', background: 'rgba(168, 85, 247, 0.08)', bottom: '-10%', left: '20%', animationDelay: '-10s' }} />
+        <div className="page-frame">
+
+      <header className="hero section">
         <div className="home-hero-split">
           {/* LEFT — thesis */}
           <div className="home-hero-copy">
@@ -448,12 +452,11 @@ export default function HomePage({
             )}
 
             {/* Navigation links */}
-            <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
+            <div className="hero-actions">
               <a
                 className="secondary-action"
                 href="/rankings"
                 onClick={(e) => { e.preventDefault(); onNavigate("/rankings"); }}
-                style={{ fontSize: 11, padding: "6px 14px", minHeight: "auto" }}
               >
                 {ui.seeSlicRanking}
               </a>
@@ -461,7 +464,6 @@ export default function HomePage({
                 className="secondary-action"
                 href="/methodology"
                 onClick={(e) => { e.preventDefault(); onNavigate("/methodology"); }}
-                style={{ fontSize: 11, padding: "6px 14px", minHeight: "auto" }}
               >
                 {ui.seeMethodology}
               </a>
@@ -475,7 +477,6 @@ export default function HomePage({
               type="button"
               className="rankings-reset-btn"
               onClick={handleReset}
-              style={{ marginTop: 4 }}
             >
               {ui.resetLabel} ({ui.equalNote})
             </button>
@@ -485,43 +486,32 @@ export default function HomePage({
 
       <main>
         {/* ═══════ WORKBENCH: Filters + City Results ═══════ */}
-        <section className="section" style={{ paddingTop: 8, paddingBottom: 24 }}>
+        <section className="section workbench-section">
           {/* Trade-off insights — compact strip */}
           {consequences.length > 0 && (
-            <div style={{ marginBottom: 14 }}>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                {consequences.map((c) => (
-                  <div key={c.id} style={severityStyles[c.severity]}>
-                    <p style={{ margin: 0, lineHeight: 1.4 }}>{c.narrative}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="tradeoff-strip">
+              {consequences.map((c) => (
+                <div key={c.id} className={severityClass[c.severity]}>
+                  <p>{c.narrative}</p>
+                </div>
+              ))}
             </div>
           )}
 
           {/* Filter bar — single compact row */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
+          <div className="filter-bar">
             <span className={`rankings-mode-badge ${isCustom ? "is-custom" : "is-canonical"}`}>
               {isCustom ? ui.customBadge : ui.equalBadge}
             </span>
 
-            <span style={{ fontSize: 11, opacity: 0.35, fontFamily: "'JetBrains Mono', monospace" }}>
+            <span className="filter-bar-count">
               {results.length} {ui.citiesLabel}
             </span>
 
             <select
+              className="filter-bar-select"
               value={region}
               onChange={(e) => setRegion(e.target.value)}
-              style={{
-                marginLeft: "auto",
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "rgba(255,255,255,0.7)",
-                fontSize: 10,
-                fontFamily: "'JetBrains Mono', monospace",
-                padding: "4px 8px",
-                cursor: "pointer",
-              }}
             >
               <option value="All">{ui.allRegions}</option>
               {rankingRegions.filter((r) => r !== "All").map((r) => (
@@ -544,7 +534,7 @@ export default function HomePage({
           </div>
 
           {/* City list — tight rows */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          <div className="city-list">
             {displayResults.map((city, index) => {
               const pillarScores = {
                 pressure: city.pressureScore,
@@ -559,19 +549,14 @@ export default function HomePage({
                   key={city.cityId}
                   className={`rankings-city-row${isTop ? " is-top" : ""}`}
                 >
-                  <span style={{
-                    fontSize: 13, fontWeight: 800,
-                    fontVariantNumeric: "tabular-nums",
-                    opacity: isTop ? 0.9 : 0.3,
-                    fontFamily: "'JetBrains Mono', monospace",
-                  }}>
+                  <span className={`city-rank-number ${isTop ? "city-rank-number--top" : "city-rank-number--rest"}`}>
                     {String(index + 1).padStart(2, "0")}
                   </span>
 
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 5 }}>
-                      <span style={{ fontWeight: 600, fontSize: 13 }}>{city.displayName}</span>
-                      <span style={{ fontSize: 11, opacity: 0.35 }}>{city.country}</span>
+                    <div className="city-name-row">
+                      <span className="city-display-name">{city.displayName}</span>
+                      <span className="city-country">{city.country}</span>
                     </div>
                     <div className="rankings-pillar-bars">
                       {PILLAR_ORDER.map((pid) => (
@@ -667,7 +652,9 @@ export default function HomePage({
 
       </main>
 
-      <SiteFooter onNavigate={onNavigate} locale={locale} />
+          </div> {/* end page-frame */}
+        </div> {/* end page-shell */}
+        <SiteFooter onNavigate={onNavigate} locale={locale} />
     </>
   );
 }

@@ -152,7 +152,7 @@ FIELD_GUIDE_PROFILES = {
     },
     "climate_sunlight_livability_raw": {
         "preferred_provider_id": "wmo_natl_met",
-        "fallback_provider_id": "slic_analyst",
+        "fallback_provider_id": "national_statistical_office",
         "collection_hint": "Composite of annual sunshine hours, temperature comfort (22 deg C optimum), and extreme weather frequency.",
         "minimum_evidence": "WMO climate normals or national meteorological service data with annual averages.",
         "notes": "Penalizes both Nordic darkness and Gulf desert heat. Score reflects year-round outdoor livability.",
@@ -240,6 +240,13 @@ FIELD_GUIDE_PROFILES = {
         "collection_hint": "Use official visitor arrivals, hotel nights, or tourism load indicators tied to the city.",
         "minimum_evidence": "Official tourism or accommodation release with city or metro scope stated.",
         "notes": "This field is optional in the score, but it is useful context for sense-checking city dynamics.",
+    },
+    "di_ppp_raw": {
+        "preferred_provider_id": "derived",
+        "fallback_provider_id": "world_bank",
+        "collection_hint": "Disposable income in PPP terms. Computed from components or taken from official regional surveys.",
+        "minimum_evidence": "Official income survey or a transparently documented combination of official revenue and cost sources.",
+        "notes": "A core V3 metric. If computed manually, ensure all components (rent, food, etc.) are cited.",
     },
 }
 
