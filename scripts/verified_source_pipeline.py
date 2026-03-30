@@ -1301,7 +1301,22 @@ def city_row_from_sources(city: dict[str, str], validation: SourcePackValidation
     return row
 
 
-def compute_ranked_rows(validation: SourcePackValidation) -> list[dict[str, Any]]:
+def compute_ranked_rows(
+    validation: SourcePackValidation,
+) -> list[dict[str, Any]]:
+    return _compute_ranked_rows_impl(validation)[0]
+
+
+def compute_ranked_rows_enriched(
+    validation: SourcePackValidation,
+) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, Any]]:
+    """Return (ranked_rows, norm_stats_export, metric_catalog_export)."""
+    return _compute_ranked_rows_impl(validation)
+
+
+def _compute_ranked_rows_impl(
+    validation: SourcePackValidation,
+) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, Any]]:
     city_universe = build_city_universe()
     city_rows = [city_row_from_sources(city, validation) for city in city_universe]
 
@@ -1313,6 +1328,36 @@ def compute_ranked_rows(validation: SourcePackValidation) -> list[dict[str, Any]
             if city_row[spec["source_column"]] is not None
         ]
         norm_stats[input_key] = (percentile_inc(values, 0.05), percentile_inc(values, 0.95))
+
+    # Build norm_stats export for frontend visualization
+    norm_stats_export = {}
+    for input_key, (p05, p95) in norm_stats.items():
+        norm_stats_export[input_key] = {
+            "p05": round(p05, 2) if p05 is not None else None,
+            "p95": round(p95, 2) if p95 is not None else None,
+            "dir": SCORE_INPUTS[input_key]["directionality"],
+        }
+
+    # Build metric catalog export
+    metric_catalog_export = {}
+    for metric_key, spec in METRIC_SPECS.items():
+        entry: dict[str, Any] = {
+            "pillar": metric_key.split("_")[0],
+            "weight": spec["weight"],
+            "type": spec["type"],
+        }
+        if spec["type"] == "direct":
+            entry["inputKey"] = str(spec["input_key"])
+        else:
+            entry["components"] = [
+                {"key": k, "weight": w} for k, w in spec["components"]
+            ]
+        # Find pillar from PILLAR_METRICS
+        for pillar, metrics in PILLAR_METRICS.items():
+            if any(mk == metric_key for mk, _ in metrics):
+                entry["pillar"] = pillar
+                break
+        metric_catalog_export[metric_key] = entry
 
     thresholds = {
         "ranked_min_overall": 0.1,
@@ -1326,31 +1371,81 @@ def compute_ranked_rows(validation: SourcePackValidation) -> list[dict[str, Any]
     for city_row in city_rows:
         metric_scores: dict[str, float | None] = {}
         metric_coverage: dict[str, float | None] = {}
+        metric_details: dict[str, dict[str, Any]] = {}
+
+        city_id = city_row["city_id"]
+        country = city_row["country"]
+        city_entries = validation.city_values.get(city_id, {})
+        country_entries = validation.country_values.get(country, {})
+
+        def _source_info(input_key: str) -> dict[str, Any]:
+            """Look up source provenance for an input key."""
+            # Map score input keys back to city field names
+            src_col = SCORE_INPUTS[input_key]["source_column"]
+            # Check if from city-level data
+            if src_col in city_entries:
+                e = city_entries[src_col]
+                return {"source": e.source_title, "sourceUrl": e.source_url, "dataLevel": "city"}
+            # Check derived fields
+            if src_col in ("di_ppp_raw", "housing_burden_raw", "household_debt_effective_raw"):
+                return {"source": "Derived", "sourceUrl": "", "dataLevel": "derived"}
+            # Check country context fields
+            for cf, ctx_name in COUNTRY_CONTEXT_FIELD_MAP.items():
+                if ctx_name == src_col and cf in country_entries:
+                    e = country_entries[cf]
+                    return {"source": e.source_title, "sourceUrl": e.source_url, "dataLevel": "national"}
+            return {"source": "", "sourceUrl": "", "dataLevel": "missing"}
 
         for metric_key, spec in METRIC_SPECS.items():
             if spec["type"] == "direct":
                 input_key = str(spec["input_key"])
                 p05, p95 = norm_stats[input_key]
                 directionality = SCORE_INPUTS[input_key]["directionality"]
-                score = normalize_value(city_row[input_key], p05, p95, directionality)
+                raw_value = city_row.get(input_key)
+                score = normalize_value(raw_value, p05, p95, directionality)
                 metric_scores[metric_key] = score
                 metric_coverage[metric_key] = 1.0 if score is not None else None
+                info = _source_info(input_key)
+                metric_details[metric_key] = {
+                    "raw": round(raw_value, 2) if raw_value is not None else None,
+                    "score": round(score, 1) if score is not None else None,
+                    **info,
+                }
                 continue
 
             numerator = 0.0
             denominator = 0.0
             availability = 0.0
+            comp_details = []
             for input_key, weight in spec["components"]:
                 p05, p95 = norm_stats[input_key]
                 directionality = SCORE_INPUTS[input_key]["directionality"]
-                component_score = normalize_value(city_row[input_key], p05, p95, directionality)
+                raw_value = city_row.get(input_key)
+                component_score = normalize_value(raw_value, p05, p95, directionality)
+                info = _source_info(input_key)
+                comp_details.append({
+                    "key": input_key,
+                    "weight": weight,
+                    "raw": round(raw_value, 2) if raw_value is not None else None,
+                    "score": round(component_score, 1) if component_score is not None else None,
+                    **info,
+                })
                 if component_score is None:
                     continue
                 numerator += component_score * float(weight)
                 denominator += float(weight)
                 availability += float(weight)
-            metric_scores[metric_key] = numerator / denominator if denominator else None
+            composite_score = numerator / denominator if denominator else None
+            metric_scores[metric_key] = composite_score
             metric_coverage[metric_key] = availability if availability else None
+            metric_details[metric_key] = {
+                "raw": None,
+                "score": round(composite_score, 1) if composite_score is not None else None,
+                "source": "Composite",
+                "sourceUrl": "",
+                "dataLevel": "composite",
+                "components": comp_details,
+            }
 
         pillar_scores: dict[str, float | None] = {}
         pillar_coverage: dict[str, float | None] = {}
@@ -1405,6 +1500,13 @@ def compute_ranked_rows(validation: SourcePackValidation) -> list[dict[str, Any]
             else None
         )
 
+        # Compute highlights — strongest and weakest scored metrics
+        scored_metrics = {
+            k: v["score"] for k, v in metric_details.items() if v.get("score") is not None
+        }
+        strongest = max(scored_metrics, key=scored_metrics.get) if scored_metrics else None
+        weakest = min(scored_metrics, key=scored_metrics.get) if scored_metrics else None
+
         scored_rows.append(
             {
                 "cityId": city_row["city_id"],
@@ -1427,6 +1529,11 @@ def compute_ranked_rows(validation: SourcePackValidation) -> list[dict[str, Any]
                 "creativeScore": round_score(pillar_scores["creative"]),
                 "slicScore": round_score(slic_score),
                 "rankingStatus": ranking_status,
+                "metrics": metric_details,
+                "highlights": {
+                    "strongest": strongest,
+                    "weakest": weakest,
+                },
             }
         )
 
@@ -1448,7 +1555,7 @@ def compute_ranked_rows(validation: SourcePackValidation) -> list[dict[str, Any]
             row["displayName"],
         )
     )
-    return ranked_rows
+    return ranked_rows, norm_stats_export, metric_catalog_export
 
 
 def source_pack_completion_summary(validation: SourcePackValidation) -> str:

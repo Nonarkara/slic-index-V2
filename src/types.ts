@@ -9,7 +9,8 @@ export type SitePath =
   | "/exercise"
   | "/thailand"
   | "/ideas"
-  | "/history";
+  | "/history"
+  | "/city";
 
 export interface LandingMeta {
   title: string;

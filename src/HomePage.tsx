@@ -552,6 +552,11 @@ export default function HomePage({
                 <div
                   key={city.cityId}
                   className={`rankings-city-row${isTop ? " is-top" : ""}`}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => onNavigate(`/city/${city.cityId}` as SitePath)}
+                  onKeyDown={(e) => { if (e.key === "Enter") onNavigate(`/city/${city.cityId}` as SitePath); }}
+                  style={{ cursor: "pointer" }}
                 >
                   <span className={`city-rank-number ${isTop ? "city-rank-number--top" : "city-rank-number--rest"}`}>
                     {String(index + 1).padStart(2, "0")}
