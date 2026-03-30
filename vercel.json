@@ -1,4 +1,6 @@
 {
+  "buildCommand": "npm run build:render",
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
